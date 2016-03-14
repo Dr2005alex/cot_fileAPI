@@ -17,7 +17,7 @@
   {PHP|fileAPI_form('area:page,cat:$pag.page_cat,indf:$id,tpl:main,dnd:1')} 
 <!-- ENDIF -->	
 ```
-для вывода прикрепленных файлов к старинце вставляем в page.tpl
+для вывода прикрепленных файлов к странице вставляем в page.tpl
 вывод всех файлов
 ```html
 <!-- IF {PHP|cot_module_active('fileAPI')} -->
