@@ -8,15 +8,16 @@
 ```html
 <!-- IF {PHP|cot_module_active('fileAPI')} -->	
   {PHP|fileAPI_prepare('page')}
-  {PHP.cfg.fileAPI.prepare|fileAPI_form('$this,tpl:main,dnd:1')} 
+  {PHP.cfg.fileAPI.prepare|fileAPI_form('$this,dnd:1')} 
 <!-- ENDIF -->
 ```
 в файл page.edit.tpl вставляем..
 ```html
 <!-- IF {PHP|cot_module_active('fileAPI')} -->
-  {PHP|fileAPI_form('area:page,cat:$pag.page_cat,indf:$id,tpl:main,dnd:1')} 
+  {PHP|fileAPI_form('area:page,cat:$pag.page_cat,indf:$id,dnd:1')} 
 <!-- ENDIF -->	
 ```
+параметр dnd:1 - загрузка с поддержкой Drag&Drop. dnd:0 - без поддержки..
 для вывода прикрепленных файлов к странице вставляем в page.tpl
 вывод всех файлов
 ```html
