@@ -19,7 +19,7 @@ Lock_members=
 dir=03:string::datas/fileAPI/:
 filecheck=03:radio::1:
 nomimepass=04:radio::1:
-lightbox=04:radio::1:
+lightcase=04:radio::1:
 [END_COT_EXT_CONFIG]
 
 ==================== */

@@ -173,8 +173,11 @@ function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fi
 			"SRC" => $file_path.$add_indf.($thumb_dir ? $thumb_dir.'/' : '').$row['fa_file'].'.'.$ext_thumb,
 			"ORIG_URL" => $file_path.$add_indf.$row['fa_file'].'.'.$row['fa_extension'],
 			"NAME" => $row['fa_file'].'.'.$row['fa_extension'],
+			"DESC" => $row['fa_desc'],
+			"TITLE" => !empty($row['fa_desc']) ? $row['fa_desc'] : $row['fa_file'].'.'.$row['fa_extension'],
 			"SIZE" => cot_build_filesize($row['fa_size'], 1),
-			"EXT" => $row['fa_extension']
+			"EXT" => $row['fa_extension'],
+			"NAME_EDIT_URL" => cot_url('fileAPI', 'm=editname&a=form&id='.$row['fa_id'], '', true),
 		));
 
 		if ($view_all)

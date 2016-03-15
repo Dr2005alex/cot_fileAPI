@@ -101,6 +101,7 @@
     width: 100%;
 }
 
+
 .fileAPI .fapi_wrapper{
     position: relative; 
     width: 100%;
@@ -178,6 +179,27 @@
     z-index: 1000;
     background:#fff url('uploader/button_ok.png') 50% 50% no-repeat;
 }
+.fileAPI .fapi_images_preview .fapi_edit_title{
+
+    position: absolute;
+    top:0px;
+    left:3px;
+    z-index: 1000;
+    color: #f00;
+    background: #fff;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 999;
+	width: 16px;
+	height: 16px;
+    padding:2px 5px;
+    border-radius: 3px;
+    -webkit-transition: opacity .1s ease-in;
+    -moz-transition: opacity .1s ease-in;
+    transition: opacity .1s ease-in;
+	background:#fff url('uploader/edit_title.png') 50% 50% no-repeat;
+}
+
 
 .fileAPI .fapi_images_preview .fapi_error{
     padding: 10px 5px 5px 5px;
@@ -389,7 +411,7 @@
     top:15%;
     left:23%;
     text-shadow: 0px -1px 0px #006600, 0px 1px 0px #fff;
-	background: url('upload.png') 50% 50% no-repeat;
+	background: url('uploader/upload.png') 50% 50% no-repeat;
 
 }
 
@@ -498,7 +520,6 @@
 .fileAPI_attach_box .fapi_file_size{
 	font-size: 0.9em;
 }
-
 
 .fileAPIclear{
 	position: relative;

@@ -1,5 +1,4 @@
 <!-- BEGIN: MAIN --> 
-
     <div id="FileAPImultiupload" class="fileAPI">
 
                 <div class="fapi_wrapper">
@@ -83,7 +82,17 @@
             var id = $(this).attr('data-id');
             fapiGetFile(id,'delete');
         });
-        
+		
+        $('.fapi_images_preview').hover(function ()
+		{
+			$(this).children('.fapi_edit_title').css('opacity',1);
+
+			},function (){
+				$(this).children('.fapi_edit_title').css('opacity', 0);
+			}
+		);
+
+
         if(maxFilesCurrent < 1){
             
             $('#fapi_add_input').prop('disabled', true);

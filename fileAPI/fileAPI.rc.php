@@ -18,11 +18,25 @@ cot_rc_add_file($cfg['modules_dir'].'/fileAPI/js/fileAPI.js');
 cot_rc_add_file($cfg['modules_dir'].'/fileAPI/css/fileAPI.css');
 cot_rc_add_file($cfg['modules_dir'].'/fileAPI/js/FileAPI/FileAPI.min.js');
 
-// подключить lightbox
-if($cfg['fileAPI']['lightbox']){
-	cot_rc_add_file($cfg['modules_dir'].'/fileAPI/js/lightbox/css/lightbox.css');
-	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/lightbox/js/lightbox.min.js');
+// подключить lightcase
+if($cfg['fileAPI']['lightcase']){
+	cot_rc_add_file($cfg['modules_dir'].'/fileAPI/js/lightcase/css/lightcase.css');
+	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/lightcase/js/lightcase.js');
+	cot_rc_embed($code);
+	cot_rc_embed("
+		jQuery(document).ready(function($) {
+		$('a[data-rel^=lightcase]').lightcase({
+				maxWidth:1600,
+				maxHeight: 1200,
+				slideshow: true,
+				showCaption: false
+			});
+		});
+	"
+	);
 }
+
+
 
 //cot_rc_add_file($cfg['modules_dir'] . '/fileAPI/js/FileAPI/FileAPI.exif.js');
 

@@ -18,6 +18,8 @@ defined('COT_CODE') or die('Wrong URL');
 define('COT_FILEAPI', true);
 $env['location'] = 'fileAPI';
 
+list($usr['auth_read'], $usr['auth_write'], $usr['isadmin']) = cot_auth('fileAPI', 'a');
+cot_block($usr['auth_read']);
 
 // Self requirements
 require_once cot_incfile('fileAPI', 'module');
@@ -25,7 +27,7 @@ require_once cot_incfile('fileAPI', 'module');
 $m = !$m ? 'main' : $m;
 
 
-if (in_array($m, array('main', 'element', 'loader')))
+if (in_array($m, array('main', 'element', 'loader','editname')))
 {
 	require_once cot_incfile('fileAPI', 'module', $m);
 }
