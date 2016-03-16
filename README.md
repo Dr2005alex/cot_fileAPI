@@ -8,7 +8,9 @@
 Прикрепление файлов к страницам
 -------
 
-в файл page.add.tpl вставляем вызов формы: 
+в файл page.add.tpl
+----
+вставляем вызов формы: 
 ```html
 <!-- IF {PHP|cot_module_active('fileAPI')} -->	
   {PHP|fileAPI_prepare('page')}
