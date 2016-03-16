@@ -3,16 +3,19 @@ defined('COT_CODE') or die('Wrong URL');
 
 require_once cot_langfile('fileAPI', 'module');
 cot::$cfg['fileAPI']['const_param'] = array('area', 'cat', 'indf', 'count', 'tpl', 'dnd', 'auto', 'accept',
-	'type');
+	'type', 'loop');
 
 // Registering tables
 cot::$db->registerTable('fileAPI');
+
+$fileAPI_loop_ids = array();
+$fileAPI_loop_data = array();
 
 function get_fileAPI_form($param)
 {
 	global $L;
 
-// parametr data
+	// parametr data
 	if (!parse_fileAPI_param($param))
 	{
 		throw new Exception('Error: There are no parameters');
@@ -34,12 +37,11 @@ function get_fileAPI_form($param)
 	$data = '';
 	$data_url = '';
 	$i = 0;
+
 	foreach ($param as $key => $value)
 	{
-
 		if (in_array($key, array('area', 'cat', 'indf')))
 		{
-
 			$point = $i > 0 ? ', ' : '';
 			$point_url = $i > 0 ? '&' : '';
 			$data .= $point.$key.": '".$value."'";
@@ -48,15 +50,16 @@ function get_fileAPI_form($param)
 		}
 	}
 
-//accept
+	//accept
 	$arraccept = explode(',', $accept);
 	array_walk($arraccept, function(&$item) {
 		return $item .='/*';
 	});
 	$accept = count($arraccept) > 1 ? implode(',', $arraccept) : 'all';
 
-//template
+	//template
 	$t = new XTemplate(cot_tplfile(array('fileAPI', 'form', $tpl)));
+
 	$t->assign(array(
 		"GET_FILE_URL" => cot_url('fileAPI', 'm=element', '', true),
 		"ACTION" => cot_url('fileAPI', 'm=loader', '', true),
@@ -69,6 +72,7 @@ function get_fileAPI_form($param)
 		"DND" => $dnd,
 		"AUTOLOAD" => $auto ? 'true' : 'false'
 	));
+
 	$t->parse('MAIN');
 	return $t->text('MAIN');
 }
@@ -84,15 +88,41 @@ function get_count_fileAPI_files($param)
 	return $res;
 }
 
-function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fileAPI.display.line')
+function get_fileAPI_files_loop_data($param, &$ids, &$data, $where)
 {
 	global $cfg, $usr, $db, $db_fileAPI;
+
+	if (count($ids) > 0)
+	{
+		$sql = $db->query("SELECT * FROM $db_fileAPI WHERE $where fa_area = '{$param['area']}' AND fa_indf IN (".implode(',', $ids).") ORDER BY fa_id ASC ");
+
+		if ($sql->rowCount())
+		{
+
+			while ($row = $sql->fetch())
+			{
+				$data[$row['fa_indf']][] = $row;
+			}
+		}
+		else
+		{
+			$data = false;
+		}
+	}
+
+	unset($ids);
+}
+
+function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fileAPI.display.line')
+{
+	global $cfg, $usr, $db, $db_fileAPI, $fileAPI_loop_ids, $fileAPI_loop_data;
 
 	if (!is_array($param))
 	{
 		parse_fileAPI_param($param);
 	}
 
+	$file_data = false;
 	$view_all = false;
 	$where = '';
 	$view_block = '';
@@ -118,38 +148,58 @@ function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fi
 			break;
 	}
 
-
-
-	if (!$last_id)
+	// Режим loop для списков
+	if ($param['loop'])
 	{
-		$sql = $db->query("SELECT * FROM $db_fileAPI WHERE $where fa_area = '{$param['area']}' AND fa_cat = '{$param['cat']}'  AND fa_indf = '{$param['indf']}' ORDER BY fa_id ASC ");
+		if (!isset($fileAPI_loop_data[$param['area']]) && $fileAPI_loop_ids[$param['area']])
+		{
+			// выборка данных прикрепленных файлах в списке сущностей
+			get_fileAPI_files_loop_data($param, $fileAPI_loop_ids[$param['area']], $fileAPI_loop_data[$param['area']], $where);
+		}
+
+		if (is_array($fileAPI_loop_data[$param['area']][$param['indf']]))
+		{
+			//Берем данные о прикрепленных файлах к текущей сущности
+			$file_data = $fileAPI_loop_data[$param['area']][$param['indf']];
+		}
+		else
+		{
+			// нет прикрепленных файлов
+			return;
+		}
 	}
 	else
 	{
-		$sql = $db->query("SELECT * FROM $db_fileAPI WHERE  fa_id = ? ", $last_id);
+		if (!$last_id)
+		{
+			// выбор одного файла
+			$sql = $db->query("SELECT * FROM $db_fileAPI WHERE $where fa_area = '{$param['area']}' AND fa_cat = '{$param['cat']}'  AND fa_indf = '{$param['indf']}' ORDER BY fa_id ASC ");
+		}
+		else
+		{
+			// выбор всех файлов
+			$sql = $db->query("SELECT * FROM $db_fileAPI WHERE  fa_id = ? ", $last_id);
+		}
+		$file_data = $sql->fetchAll();
 	}
 
 	$t = new XTemplate(cot_tplfile($tpl));
 
-	if ($sql->rowCount() == 0)
+
+	if (count($file_data) == 0)
 	{
 		$t->parse("MAIN");
 		return $t->text("MAIN");
 	}
 
-
-
-
-	$file_path = $cfg['fileAPI']['dir'].(!empty($param['area']) ? $param['area'].'/' : '').(!empty($param['cat'])
-				? $param['cat'].'/' : '');
-
-	while ($row = $sql->fetch())
+	foreach ($file_data as $row)
 	{
+		$file_path = $cfg['fileAPI']['dir'].$row['fa_area'].'/'.(!empty($row['fa_cat']) ? $row['fa_cat'].'/'
+					: '');
 
 		$ext_thumb = $row['fa_extension'];
 		if (!empty($row['fa_prefix']) && !empty($thumb_dir))
 		{
-
 			$arr = unserialize($row['fa_prefix']);
 
 			if ($arr)
@@ -215,16 +265,15 @@ function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fi
 
 function parse_fileAPI_param(&$param)
 {
-
 	$m = array();
 
-// уже массив
+	// уже массив
 	if (is_array($param))
 	{
 		return true;
 	}
 
-//если не строка или нет параметров, то не парсим
+	//если не строка или нет параметров, то не парсим
 	if (!is_string($param) || empty($param))
 	{
 		return false;
@@ -235,8 +284,6 @@ function parse_fileAPI_param(&$param)
 	$param = array_combine($m[1], $m[2]);
 
 	array_walk($param, function(&$item, $key) {
-
-
 
 		if (in_array($key, cot::$cfg['fileAPI']['const_param']))
 		{
@@ -251,7 +298,7 @@ function parse_fileAPI_param(&$param)
 
 				if ($count_arr > 1)
 				{
-// array
+					// array
 					global ${$arg[0]};
 
 					$arr_main = ${$arg[0]};
@@ -289,7 +336,7 @@ function parse_fileAPI_param(&$param)
 				}
 				else
 				{
-// var
+					// var
 					global ${$body_var};
 
 					if (!is_array(${$body_var}))
@@ -392,7 +439,6 @@ function delete_fileAPI_file($id)
 
 		if (!empty($file['fa_prefix']))
 		{
-
 			$arr = unserialize($file['fa_prefix']);
 
 			foreach ($arr as $value)
