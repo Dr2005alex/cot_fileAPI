@@ -2,7 +2,6 @@
 Модуль загрузки файлов для Cotonti
 
 Модуль на стадии разработки, но можно уже побаловаться...
--------
 
 
 # Прикрепление файлов к страницам
@@ -16,7 +15,8 @@
   {PHP.cfg.fileAPI.prepare|fileAPI_form('$this,dnd:1')} 
 <!-- ENDIF -->
 ```
-в файл page.edit.tpl вставляем..
+в файл page.edit.tpl
+----
 ```html
 <!-- IF {PHP|cot_module_active('fileAPI')} -->
   {PHP|fileAPI_form('area:page,cat:$pag.page_cat,indf:$id,dnd:1')} 
@@ -24,29 +24,35 @@
 ```
 параметр dnd:1 - загрузка с поддержкой Drag&Drop. dnd:0 - без поддержки..
 
-Для вывода прикрепленных файлов к странице вставляем в page.tpl
+Файл page.tpl
+------
+Для вывода прикрепленных файлов к странице вставляем:
 
-вывод всех файлов(изображение и файлы):
+Вывод всех файлов(изображение и файлы):
+
 ```html
 <!-- IF {PHP|cot_module_active('fileAPI')} -->
   {PHP|fileAPI_files('area:page, cat:$c, indf:$id, type:all' ,'thumb')} 
 <!-- ENDIF -->
 ```
-вывод изображений:
+Вывод изображений:
+
 ```html
 <!-- IF {PHP|cot_module_active('fileAPI')} -->
   {PHP|fileAPI_files('area:page, cat:$c, indf:$id, type:image' ,'thumb')} 
 <!-- ENDIF -->
 ```
-вывод файлов:
+Вывод файлов:
+
 ```html
 <!-- IF {PHP|cot_module_active('fileAPI')} -->
   {PHP|fileAPI_files('area:page, cat:$c, indf:$id, type:file' ,'thumb')} 
 <!-- ENDIF -->
 ```
 
+Файл page.list.tpl:
+-----
 Вывод файлов к страницам в списке страниц.
-Добавляем в файл page.list.tpl:
 
 ````html
 <!-- IF {PHP|cot_module_active('fileAPI')} -->
@@ -59,13 +65,14 @@
 Если не поставить значение в 1, то каждый вывод к странице будет тянуть 1 обращение к базе MySQL.
 
 
-Прикрепление файлов к постам на форуме
--------
+# Прикрепление файлов к постам на форуме
+
 Вставить вызов формы в файлы:
 
 forums.newtopic.tpl
 -------
 вставляем в районе тега {FORUMS_NEWTOPIC_TEXT}
+
 ````html
 <!-- IF {PHP|cot_module_active('fileAPI')} -->	
 	{PHP|fileAPI_prepare('forum')}
