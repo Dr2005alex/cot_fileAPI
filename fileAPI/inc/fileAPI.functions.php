@@ -81,7 +81,7 @@ function img_transform_fileAPI_preset_parse($param, &$t)
 		}
 
 
-		if (is_array($value['watermark']))
+		if (is_array($value['watermark']) && $cfg['fileAPI']['watermark'])
 		{
 			$value['watermark']['src'] = $value['watermark']['src'] == 'cfg' || empty($value['watermark']['src'])
 					? $cfg['fileAPI']['watermark_src'] : $value['watermark']['src'];

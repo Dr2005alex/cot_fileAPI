@@ -17,10 +17,11 @@ Lock_members=
 [END_COT_EXT]
 [BEGIN_COT_EXT_CONFIG]
 dir=01:string::datas/fileAPI/:
-watermark_src=02:string::modules/fileAPI/img/watermark.png:
-filecheck=03:radio::1:
-nomimepass=04:radio::1:
-lightcase=04:radio::1:
+watermark=02:radio::1:
+watermark_src=03:string::modules/fileAPI/img/watermark.png:
+filecheck=04:radio::1:
+nomimepass=05:radio::1:
+lightcase=06:radio::1:
 [END_COT_EXT_CONFIG]
 
 ==================== */

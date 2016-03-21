@@ -43,3 +43,4 @@ $L['cfg_dir'] = 'Путь к хранилищу файлов';
 $L['cfg_lightcase'] = 'Использовать Lightcase для изображений';
 $L['cfg_lightcase_hint'] = '<a href="http://cornel.bopp-art.com/lightcase/#demo" target="_blank">Lightcase demo</a>';
 $L['cfg_watermark_src'] = 'Путь к изображению водяного знака';
+$L['cfg_watermark'] = 'Включить наложение водяного знака';
