@@ -55,9 +55,6 @@
        
     </div>
 					
-<link href="modules/fileAPI/js/log/log.css" type="text/css" rel="stylesheet">
-<script type="text/javascript" src="modules/fileAPI/js/log/log.js"></script>
-
 <script type="text/javascript" src="modules/fileAPI/js/fileAPI.js"></script>						
 <script type="text/javascript" src="modules/fileAPI/js/FileAPI/FileAPI.min.js"></script>
 <script type="text/javascript" src="modules/fileAPI/js/jquery.fileapi.min.js"></script>
@@ -146,8 +143,9 @@
 var fapiActionElement = function(){
   return{
     view:function(msg,id,widgetId){
-		$('[data-id="'+widgetId+'"]').before(msg);
-		$('[data-id="'+widgetId+'"] .fapi_del').trigger('click');
+	
+		$('[data-id="'+widgetId+'"]').replaceWith(msg);
+		FileAPIobj.fileapi('remove', widgetId);
     },
     delete:function(id){
 		$('#fapi_thumb_' + id).fadeOut('normal', function () {
