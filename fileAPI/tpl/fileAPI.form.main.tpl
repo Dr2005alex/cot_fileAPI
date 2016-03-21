@@ -14,12 +14,15 @@
                                             <div class="fapi_preview ">
                                                     <div class="fapi_preview_pic"></div>
                                             </div>
+											<div class="fapi_preview_progress"><div class="fapi_bar"></div></div>
                                             <% if( /^image/.test(type) ){ %>
                                                     <div data-fileapi="file.rotate.cw" class="fapi_preview_rotate"></div>
                                             <% } %>
-                                            <div class="fapi_preview_progress"><div class="fapi_bar"></div></div>
-                                            <div class="fapi_thumb_name"><%-name%></div>
-                                            <div class="fapi_file_size"><%-sizeText%></div>
+											
+											<div class="sub_preview">
+												<div class="fapi_thumb_name"><%-name%></div>
+												<div class="fapi_file_size"><%-sizeText%></div>	
+											</div> 
                                             <div class="fapi_error"></div>
                                     </div>
 
@@ -55,6 +58,15 @@
        
     </div>
 					
+<style>
+	.fileAPI .fapi_images_preview .fapi_error,
+	.fileAPI .fapi_images_preview {height: calc({PREVIEW_HEIGHT}px + 2.2em); width: {PREVIEW_WIDTH}px;}
+	.fileAPI i.fileAPIicon,
+	.fileAPI .fapi_images_preview .fapi_preview{height: {PREVIEW_HEIGHT}px; width: {PREVIEW_WIDTH}px;}
+	.fileAPI .fapi_dnd_add_btn,
+	.fileAPI .fapi_add_preview_btn{height: calc({PREVIEW_HEIGHT}px + 2.2em); width:{PREVIEW_WIDTH}px;}
+
+</style>				
 <script type="text/javascript" src="modules/fileAPI/js/fileAPI.js"></script>						
 <script type="text/javascript" src="modules/fileAPI/js/FileAPI/FileAPI.min.js"></script>
 <script type="text/javascript" src="modules/fileAPI/js/jquery.fileapi.min.js"></script>
@@ -88,8 +100,8 @@
                                     get: function($el, file){            
                                         $el.append('<i class="fileAPIicon icon_'+file.name.split('.').pop()+'"></i>');
                                     },
-                                    width: 80,
-                                    height: 80
+                                    width: {PREVIEW_WIDTH},
+                                    height: {PREVIEW_HEIGHT}
                             },
                             upload: { show: '.fapi_preview_progress', hide: '.fapi_preview_rotate' },
                             complete: { hide: '.fapi_preview_progress'},
@@ -146,6 +158,7 @@ var fapiActionElement = function(){
 	
 		$('[data-id="'+widgetId+'"]').replaceWith(msg);
 		FileAPIobj.fileapi('remove', widgetId);
+		$('#fapi_thumb_' + id + ' .fapi_ok').show().delay(2000).fadeOut();
     },
     delete:function(id){
 		$('#fapi_thumb_' + id).fadeOut('normal', function () {
