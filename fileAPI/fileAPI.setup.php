@@ -16,7 +16,8 @@ Auth_members=RW
 Lock_members=
 [END_COT_EXT]
 [BEGIN_COT_EXT_CONFIG]
-dir=03:string::datas/fileAPI/:
+dir=01:string::datas/fileAPI/:
+watermark_src=02:string::modules/fileAPI/img/watermark.png:
 filecheck=03:radio::1:
 nomimepass=04:radio::1:
 lightcase=04:radio::1:

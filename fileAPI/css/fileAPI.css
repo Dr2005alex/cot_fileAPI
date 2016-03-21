@@ -465,6 +465,7 @@
     box-shadow: 0 1px 1px rgba(255,255,255,.5);
 }
 
+
 .fileAPI .fapi_btn[aria-disabled],
 .fileAPI .fapi_btn[disabled]{
     opacity: .7;
@@ -525,3 +526,79 @@
 	position: relative;
 	clear: both;
 }
+
+/* popup */
+.themodal-overlay {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	top: 0;
+	right: 0;
+	z-index: 100000;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.lock {
+	overflow: hidden;
+}
+
+.popup {
+	margin: 25px;
+	float: left;
+	display: inline-block;
+	box-shadow: 0 0 5px #000;
+	background-color: #fff;
+}
+	.popup__body {
+		margin: 10px 10px 5px;
+	}
+	
+	
+/* avatar*/
+.fileAPI.userpic{
+	width: 80px;
+	height: 80px;
+	display: inline-block;
+	position: relative;
+	box-shadow: 0 0 2px rgba(0,0,0,.4);
+	background:#fff url('uploader/userpic.gif') 50% 50% no-repeat;
+	background-size: cover;
+    white-space: nowrap;
+    text-align: center;
+    cursor:pointer;
+     -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+     box-sizing: content-box;
+}
+
+.fileAPI.userpic .userpic__preview {
+	position: absolute;
+}
+
+.fileAPI .fapi_add_btn input {
+    top: -10px;
+    right: -40px;
+    z-index: 2;
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    font-size: 50px;
+    cursor: pointer;
+}
+
+	.userpic .fapi_add_btn {
+		position: absolute;
+		bottom: 0;
+		width: calc(100% - 10px);
+		padding:5px 5px;
+		background: rgba(255,255,255,0.6);
+	}
+	.userpic .fapi_add_btn:hover {
+		background: rgba(255,255,255,0.9);
+	}
+	
+	.fileAPI.userpic  .fapi_preview_progress{
+		top:30%;
+	}

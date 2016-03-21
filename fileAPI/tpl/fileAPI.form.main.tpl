@@ -40,7 +40,7 @@
                     </div>
                     <div class="fapi_clear"></div>                  
                 </div>      
-                <div class="fapi_btn_box">        
+                <div class="fapi_btn_box" <!-- IF {DND} -->style="display:none"<!-- ENDIF -->>        
                     <div class="fapi_btn fapi_add_btn">
                             <span>{PHP.L.fileAPI_add_files}</span>
                             <input type="file" name="filedata" id="fapi_add_input" />
@@ -54,145 +54,30 @@
                 </div>     
        
     </div>
+					
+<link href="modules/fileAPI/js/log/log.css" type="text/css" rel="stylesheet">
+<script type="text/javascript" src="modules/fileAPI/js/log/log.js"></script>
+
+<script type="text/javascript" src="modules/fileAPI/js/fileAPI.js"></script>						
+<script type="text/javascript" src="modules/fileAPI/js/FileAPI/FileAPI.min.js"></script>
+<script type="text/javascript" src="modules/fileAPI/js/jquery.fileapi.min.js"></script>
+				
+
 
 <script>
-    <!-- IF {DND} -->	
-	var btn_box = false;
-	<!-- ELSE -->
-	var btn_box = true;
-	<!-- ENDIF -->
-     
-     var btn_add = true;
-     var btn_abort = true;
-     var autoUpload = {AUTOLOAD};
-     
-     var delay_error =3000;
-     var maxFiles = {MAX_FILES};
-     var FilesCount = {FILES_COUNT};
-     var maxFilesCurrent = {MAX_FILES} - {FILES_COUNT}; 
-     
-     maxFilesCurrent = maxFilesCurrent > 0 ? maxFilesCurrent : -1;
-     
-     var fapiobj = $('#FileAPImultiupload');
-     
-    $(document).on('ready ajaxSuccess',function (){
-        
-        $('.fapi_del').off('click');
-        $('.fapi_del').on('click',function (){
-            var id = $(this).attr('data-id');
-            fapiGetFile(id,'delete');
-        });
-		
-        $('.fapi_images_preview').hover(function ()
-		{
-			$(this).children('.fapi_edit_title').css('opacity',1);
+	var FileAPIobj = $('#FileAPImultiupload');
+	var fileAPI_preset = {PRESET};	
 
-			},function (){
-				$(this).children('.fapi_edit_title').css('opacity', 0);
-			}
-		);
-
-
-        if(maxFilesCurrent < 1){
-            
-            $('#fapi_add_input').prop('disabled', true);
-
-        }else{
-            
-            $('#fapi_add_input').prop('disabled', false);
-        } 
-        
-    });
-    
-    $().ready(function () {
-
-       $('.fapi_dndbox').on('click', function(){
-           $('#fapi_add_input').trigger('click');
-           });
-           
-           !btn_box && $('.fapi_btn_box').hide();
-           !btn_add && $('.fapi_add_btn').hide();
-           !btn_abort && $('.fapi_btn_abort').remove();
-           autoUpload && $('.fapi_btn_upload').remove();
-           !btn_add && $('.fapi_add_btn').hide();
-           
-           
-           fapiHideBtn();
-    });
-    
-    
-    
-    function fapiHideBtn(){
-
-        if( maxFilesCurrent < 1)
-        {   
-                $('.fapi_btn_box, .fapi_dnd_add_btn').addClass('fapi_opacity');
-        }
-        if( maxFilesCurrent >= 1 && btn_box)
-        {
-            $('.fapi_btn_box, .fapi_dnd_add_btn').removeClass('fapi_opacity');
-        } 
-    }
-    
-    function fapiGetFile(id,action){
-        
-        data = '{DATA_URL}' + '&id='+id+'&x={PHP.sys.xk}&act=' + action ;
-       
-        $.ajax({
-            type: "POST",
-            url: '{GET_FILE_URL}',
-            data: data,
-            success: function (msg) {
-
-                if(action === 'view'){
-                    $('#fapi_display').append(msg);
-                    $('#fapi_thumb_'+id).hide().fadeIn();
-                    $('#fapi_thumb_'+id+' .fapi_ok').show().delay(2000).fadeOut();
-                    
-                    maxFilesCurrent--;
-                    
-                        if(maxFilesCurrent === 0){
-
-                            maxFilesCurrent--;
-
-                        }
-                    
-                    fapiHideBtn();
-                    
-                    fapiobj.fileapi("maxFiles",maxFilesCurrent);
-   
-                }
-                if(action === 'delete' && msg === 'delete'){
- 
-                    maxFilesCurrent++;
-                    
-                        if(maxFilesCurrent === 0){
-
-                            maxFilesCurrent++;
-
-                        }
-                    
-                    fapiobj.fileapi("maxFiles",maxFilesCurrent);
-
-                    $('#fapi_thumb_'+id).fadeOut('normal',function(){ this.remove(); });
-
-                    fapiHideBtn();
-
-                }
-            }
-
-        });
-    
-    }
-    
-     fapiobj.fileapi({
-			url: '{ACTION}',
-            multiple: true,
-            autoUpload: autoUpload,
-            accept: '{ACCEPT}',
-            data: {DATA},
-            maxSize: 20 * FileAPI.MB,
-            maxFiles: maxFilesCurrent,
+	
+    FileAPIobj.fileapi({
+			url: fileAPI_preset.actionurl,
+            multiple: fileAPI_preset.multiple,
+            autoUpload: fileAPI_preset.autoupload,
+            accept: fileAPI_preset.accept,
+            data: fileAPI_preset.data ,
+            maxSize: fileAPI_preset.maxfilesize * FileAPI.MB,
+            maxFiles: fileAPI_preset.currentfiles,
+			imageOriginal:false,
             elements: {
                     ctrl: { upload: '.fapi_btn_upload_ctrl' , abort:'.fapi_btn_abort_ctrl'},
                     empty: {  hide:'.fapi_btn_reset'},
@@ -219,49 +104,59 @@
                        fallback: '.fapi_dndbox-not-supported'
                     }
             },        
-            imageTransform: {
-                'thumb': { width: 80, weight: 80, preview: true },
-            },
+            imageTransform:  {IMAGE_TRANSFORM} ,
+			onSelect: function (evt, ui){
+	
+			},
             onFilePrepare:function (evt, uiEvt){
-               
-                uiEvt.options.data.fileUID = evt.timeStamp;
-                
+				uiEvt.options.data.uid = uiEvt.xhr.uid;  
             },  
             onFileComplete:function (evt, uiEvt){
                 
                 var error = uiEvt.error;
                 var myerror = uiEvt.result.error;
                 var widgetId = uiEvt.widget.__fileId;
+				
                 if(error){
                     alert(error);
                 }
+				
                 if(myerror){
+					
                     $('[data-id="'+widgetId+'"] div.fapi_error').html(myerror).fadeIn();
-                    $('[data-id="'+widgetId+'"]').delay(delay_error).fadeOut('normal',function(){
+                    $('[data-id="'+widgetId+'"]').delay(fileAPI_preset.timeviewerror).fadeOut('normal',function(){
+						
+						$('[data-id="'+widgetId+'"] .fapi_del').trigger('click');
                         
-                        $('[data-id="'+widgetId+'"] .fapi_del').trigger('click');
-                        
-                        });
+                    });
                     
                 }else{
-                    //console.log(uiEvt.result);
 
                     var lastid = uiEvt.result.file_info.lastId;
 
                     if(lastid > 0){
-                        
-                        $('[data-id="'+widgetId+'"]').fadeOut('fast',function(){
-                            $('[data-id="'+widgetId+'"] .fapi_del').trigger('click');
-                            fapiGetFile(lastid,'view');
-                        });
-                        
+                        fapiGetFile(lastid,'view',widgetId);   
                     }
                 }
-
-
             }     
    
     });
-
+	
+// действия над элементом для данного шаблона	
+var fapiActionElement = function(){
+  return{
+    view:function(msg,id,widgetId){
+		$('[data-id="'+widgetId+'"]').before(msg);
+		$('[data-id="'+widgetId+'"] .fapi_del').trigger('click');
+    },
+    delete:function(id){
+		$('#fapi_thumb_' + id).fadeOut('normal', function () {
+			this.remove();
+		});
+    }
+  }
+}();			
+										
+					
 </script>
 <!-- END: MAIN -->
