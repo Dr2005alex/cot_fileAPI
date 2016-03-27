@@ -19,6 +19,7 @@ require_once cot_incfile('fileAPI', 'module');
 foreach ($sqllist_rowset as $value)
 {
 	$fileAPI_loop_ids['page'][] = $value['page_id'];
+	$fileAPI_loop_ids['page_avatar'][] = $value['page_id'];
 }
 
 

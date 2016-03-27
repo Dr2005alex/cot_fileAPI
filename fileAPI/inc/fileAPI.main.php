@@ -7,7 +7,7 @@ cot_block($usr['auth_read']);
 
 require_once $cfg['system_dir'] . '/header.php';
 
-$t = new XTemplate(cot_tplfile(array('fileAPI')));
+$t = new XTemplate(cot_tplfile(array('fileAPI','main')));
 
 
 $t->parse('MAIN');

@@ -15,7 +15,6 @@
 defined('COT_CODE') or die('Wrong URL');
 
 cot_rc_add_file($cfg['modules_dir'].'/fileAPI/css/fileAPI.css');
-//cot_rc_add_file($cfg['modules_dir'].'/fileAPI/css/main.css');
 
 // подключить lightcase
 if($cfg['fileAPI']['lightcase']){
@@ -36,6 +35,4 @@ if($cfg['fileAPI']['lightcase']){
 	);
 }
 
-//cot_rc_add_file($cfg['modules_dir'] . '/fileAPI/js/jcrop/jquery.Jcrop.min.js');
-cot_rc_add_file($cfg['modules_dir'] . '/fileAPI/js/jcrop/jquery.Jcrop.min.css');
 

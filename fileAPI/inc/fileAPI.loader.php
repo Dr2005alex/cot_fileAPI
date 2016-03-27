@@ -30,10 +30,11 @@ if (strtoupper($_SERVER['REQUEST_METHOD']) == 'POST')
 	$files = FileAPI::getFiles(); // Retrieve File List
 	$ferror_massage = '';
 	$file_info = array();
-	
+
 	$param['area'] = cot_import('area', 'P', 'ALP');
 	$param['cat'] = cot_import('cat', 'P', 'ALP');
 	$param['indf'] = cot_import('indf', 'P', 'ALP');
+	$param['mode'] = cot_import('mode', 'P', 'ALP');
 	$param['uid'] = cot_import('uid', 'P', 'TXT');
 
 	// Fetch all image-info from files list
@@ -156,6 +157,10 @@ function fileAPI_create_file($files, $param, $name, $mime = 'mime')
 	$pefix_name = ($param['cat'] == 'fileapi_prepare') ? '' : (!empty($param['indf']) ? '_'.$param['indf']
 				: '').'_'.$usr['id'];
 
+	if($param['mode'] == 'avatar'){
+		$pefix_name = cot_unique(4).$pefix_name;// решает проблему отображения закешированных браузером нарезанных изображений
+	}
+
 	$new_filename = cot_safename($files['name'], true, $pefix_name);
 
 	$sql_filename = mb_substr($new_filename, 0, mb_strrpos($new_filename, '.'));
@@ -272,6 +277,13 @@ function fileAPI_create_file($files, $param, $name, $mime = 'mime')
 	{
 		$ferror_massage = sprintf($L['fileAPI_upload_file_error_ext'], $ext);
 	}
+
+	/* === Hook === */
+	foreach (cot_getextplugins('fileAPI.loader.done') as $pl)
+	{
+		include $pl;
+	}
+	/* ===== */
 
 	return $last_id;
 }

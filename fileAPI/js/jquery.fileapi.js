@@ -1070,6 +1070,7 @@
 		},
 
 		remove: function (file){
+			console.log(file);
 			var uid = typeof file == 'object' ? api.uid(file) : file;
 
 			this.$file(uid).remove();

@@ -80,6 +80,10 @@ function img_transform_fileAPI_preset_parse($param, &$t)
 				break;
 		}
 
+		if (!empty($value['typeimage']))
+		{
+			$res .= ', type: "'.$value['typeimage'].'"';
+		}
 
 		if (is_array($value['watermark']) && $cfg['fileAPI']['watermark'])
 		{
@@ -185,42 +189,51 @@ function get_fileAPI_form($param)
 	}
 
 	$preset['data'] = array('area' => $param['area'], 'cat' => $param['cat'], 'indf' => $param['indf'],
-		'x' => $sys['xk'],'thumb_fld' => $form_thumb['code']);
+		'x' => $sys['xk'], 'thumb_fld' => $form_thumb['code'], 'tpl' => $tpl, 'mode' => $preset['mode']);
+
 
 	$preset['actionurl'] = cot_url('fileAPI', 'm=loader', '', true);
 	$preset['countloadedfiles'] = (int) $info_loaded['count_files'];
 	$preset['maxfiles'] = (int) $preset['maxfiles'] > 0 ? (int) $preset['maxfiles'] : 1000000000000;
 	$preset['currentfiles'] = $preset['maxfiles'] - $preset['countloadedfiles'];
+	if ($preset['currentfiles'] == 0)
+	{
+		$preset['currentfiles'] = -1;
+	}
 	$preset['elementurl'] = cot_url('fileAPI', 'm=element', '', true);
 
 	$t->assign(array(
+		"PRESET_NAME" => $preset_name,
 		"PRESET" => json_encode($preset, JSON_FORCE_OBJECT),
 		"IMAGE_TRANSFORM" => $imageTransform,
 		"DND" => (bool) $preset['dnd'] ? true : false,
-		"DISPLAY" => get_fileAPI_files($param, $form_thumb['code']),
-
-		//"GET_FILE_URL" => cot_url('fileAPI', 'm=element', '', true),
-		//"ACTION" => cot_url('fileAPI', 'm=loader', '', true),
-		//"FILES_COUNT" => (int) $info_loaded['count_files'],
-		//"DATA" => "{".$data.",x:'".cot::$sys['xk']."'}",
-		//"DATA_URL" => $data_url."&thumb_fld=".$form_thumb['code'],
-
-		// preset tags
-//		"PREVIEW_WIDTH" => $form_thumb['width'],
-//		"PREVIEW_HEIGHT" => $form_thumb['height'],
-//		"ACCEPT" => $preset['accept'],
-//		"AUTOLOAD" => (bool) $preset['autoUpload'] ? 'true' : 'false',
-//
-//		"MULTIPLE" => (bool) $preset['multiple'] ? 'true' : 'false',
-//		"MAX_FILES" => (int) $preset['maxFiles'] > 0 ? (int) $preset['maxFiles'] : 1000000000000,
-//		"MAX_FILE_SIZE" => (int) $preset['maxFileSize'] > 0 ? (int) $preset['maxFileSize'] : 20,
-//		"TIME_VIEW_ERROR" => (int) $preset['timeViewError'] > 0 ? (int) $preset['timeViewError'] : 3000,
-//		"WATERMARK" => (bool) $preset['watermark'] ? 'true' : 'false',
-
+		"DISPLAY" => get_fileAPI_files($param, $form_thumb['code'], false, $tpl),
+		"PREVIEW_HEIGHT" => $form_thumb['height'],
+		"PREVIEW_WIDTH" => $form_thumb['width'],
+		"COUNT" => $preset['countloadedfiles']
 	));
 
-	$t->parse('MAIN');
-	return $t->text('MAIN');
+	add_rc_fileAPI_files($preset);
+
+	$t->parse('FORM');
+	return $t->text('FORM');
+}
+
+function add_rc_fileAPI_files($preset)
+{
+	global $cfg;
+
+	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/fileAPI.js');
+	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/FileAPI/FileAPI.min.js');
+	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/jquery.fileapi.min.js');
+
+	if ($preset['mode'] == 'avatar' || $preset['mode'] == 'page_avatar')
+	{
+		cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/jcrop/jquery.Jcrop.min.js');
+		cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/modal/jquery.modal.js');
+		cot_rc_add_file($cfg['modules_dir'].'/fileAPI/js/jcrop/jquery.Jcrop.min.css');
+	}
+
 }
 
 function get_count_fileAPI_files($param)
@@ -259,7 +272,7 @@ function get_fileAPI_files_loop_data($param, &$ids, &$data, $where)
 	unset($ids);
 }
 
-function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fileAPI.display.line')
+function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fileAPI.display.view')
 {
 	global $cfg, $usr, $db, $db_fileAPI, $fileAPI_loop_ids, $fileAPI_loop_data;
 
@@ -279,6 +292,11 @@ function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fi
 
 			$where = " fa_mime = '".$param['type']."' AND ";
 			$view_block = '.IMG';
+			break;
+		case 'avatar':
+
+			$where = " fa_mime = 'image' AND ";
+			$view_block = '.AVATAR';
 			break;
 		case 'file':
 
@@ -724,6 +742,7 @@ function modify_fileAPI_prepare($area, $indf, $cat)
 					}
 				}
 			}
+
 		}
 
 		$postfix = '_'.$indf.'_'.cot::$usr['id'];

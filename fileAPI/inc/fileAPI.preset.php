@@ -56,3 +56,74 @@ $fileAPI_preset['main'] = array(
 	)
 );
 
+$fileAPI_preset['avatar'] = array(
+	'AutoUpload' => false, // автоматическая загрузка файлов на сервер. true - да, false - нет
+	'DnD' => false, // включить поддержку Drag & Drop (Выбор файлов путем перетаскивания)
+	'Multiple' => false, // включить множественный выбор файлов
+	'MaxFiles' => 1, // максимальное количество прикрепляемых файлов
+	'Accept' => 'image',// фильтр выбора файлов в форме загрузки. Через запятую, если несколько. (image, audio, video, application) Оставить пустым для отключения
+	'MaxFileSize' => 20, // Максимальный размер файла для загрузки а Mb
+	'TimeViewError' => 3000, //Время отображения ошибки в мс.
+	'Tpl' => 'fileAPI.form.avatar', //tpl файл формы
+	'Mode'	=> 'avatar',
+	'ImageTransform' => array(
+		'original' => array(
+			'width' => '80px',
+			'height' => '80px',
+			'type' => 'side', //при использовании cropper обязательно side
+			'typeimage' => 'image/png',
+			'quality' => '0.86',
+			'form' => true,
+			'avatar' => true,
+			'watemark' => false
+		)
+	)
+);
+
+$fileAPI_preset['photo'] = array(
+	'AutoUpload' => false, // автоматическая загрузка файлов на сервер. true - да, false - нет
+	'DnD' => false, // включить поддержку Drag & Drop (Выбор файлов путем перетаскивания)
+	'Multiple' => false, // включить множественный выбор файлов
+	'MaxFiles' => 1, // максимальное количество прикрепляемых файлов
+	'Accept' => 'image',// фильтр выбора файлов в форме загрузки. Через запятую, если несколько. (image, audio, video, application) Оставить пустым для отключения
+	'MaxFileSize' => 20, // Максимальный размер файла для загрузки а Mb
+	'TimeViewError' => 3000, //Время отображения ошибки в мс.
+	'Tpl' => 'fileAPI.form.avatar', //tpl файл формы
+	'Mode'	=> 'photo',
+	'ImageTransform' => array(
+		'original' => array(
+			'width' => '300px',
+			'height' => '200px',
+			'type' => 'side', //при использовании cropper обязательно side
+			'typeimage' => 'image/png',
+			'quality' => '0.86',
+			'form' => true,
+			'avatar' => true,
+			'watemark' => false
+		)
+	)
+);
+
+$fileAPI_preset['page_avatar'] = array(
+	'AutoUpload' => false, // автоматическая загрузка файлов на сервер. true - да, false - нет
+	'DnD' => false, // включить поддержку Drag & Drop (Выбор файлов путем перетаскивания)
+	'Multiple' => false, // включить множественный выбор файлов
+	'MaxFiles' => 1, // максимальное количество прикрепляемых файлов
+	'Accept' => 'image',// фильтр выбора файлов в форме загрузки. Через запятую, если несколько. (image, audio, video, application) Оставить пустым для отключения
+	'MaxFileSize' => 20, // Максимальный размер файла для загрузки а Mb
+	'TimeViewError' => 3000, //Время отображения ошибки в мс.
+	'Tpl' => 'fileAPI.form.avatar', //tpl файл формы
+	'Mode'	=> 'page_avatar',
+	'ImageTransform' => array(
+		'original' => array(
+			'width' => '620px',
+			'height' => '100px',
+			'type' => 'side', //при использовании cropper обязательно side
+			'typeimage' => 'image/png',
+			'quality' => '0.86',
+			'form' => true,
+			'avatar' => true,
+			'watemark' => false
+		)
+	)
+);

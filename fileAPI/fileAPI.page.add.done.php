@@ -18,6 +18,8 @@ require_once cot_incfile('fileAPI', 'module');
 if($id > 0)
 {
 	modify_fileAPI_prepare('page', $id, $rpage['page_cat']);
+	modify_fileAPI_prepare('page_avatar', $id, $rpage['page_cat']);
+
 }
 
 

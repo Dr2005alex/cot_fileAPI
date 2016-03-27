@@ -1,5 +1,12 @@
 <!-- BEGIN: MAIN --> 
 
+<!-- BEGIN: AVATAR --> 	
+
+	<!-- BEGIN: ROW --> 
+		<a href="{ORIG_URL}"  data-rel="lightcase:myCollection" target="_blank" title='{TITLE}'  class='fileAPI_thumb'><img src="{SRC}" alt="{TITLE}" /></a>
+	<!-- END: ROW -->
+
+<!-- END: AVATAR -->
 
 <!-- BEGIN: IMG --> 	
 <div class='fileAPI_attach_box'>	

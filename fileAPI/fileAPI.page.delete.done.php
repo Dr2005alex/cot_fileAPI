@@ -18,6 +18,8 @@ require_once cot_incfile('fileAPI', 'module');
 if($rpage['page_id'] > 0)
 {
 	delete_all_fileAPI_file('page', $rpage['page_id'], $rpage['page_cat']);
+
+	delete_all_fileAPI_file('page_avatar', $rpage['page_id'], $rpage['page_cat']);
 }
 
 
