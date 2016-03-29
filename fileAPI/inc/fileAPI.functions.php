@@ -6,14 +6,12 @@ require_once cot_incfile('fileAPI', 'module', 'preset');
 
 cot::$cfg['fileAPI']['const_param'] = array('area', 'cat', 'indf', 'maxfiles', 'tpl', 'dnd', 'auto',
 	'accept', 'loop', 'preset', 'type');
-
-// Registering tables
 cot::$db->registerTable('fileAPI');
+cot::$cfg['fileAPI']['preset'] = $fileAPI_preset;
 
 $fileAPI_loop_ids = array();
 $fileAPI_loop_data = array();
 
-cot::$cfg['fileAPI']['preset'] = $fileAPI_preset;
 
 function load_fileAPI_preset($name)
 {
@@ -253,7 +251,7 @@ function get_fileAPI_files_loop_data($param, &$ids, &$data, $where)
 
 	if (count($ids) > 0)
 	{
-		$sql = $db->query("SELECT * FROM $db_fileAPI WHERE $where fa_area = '{$param['area']}' AND fa_indf IN (".implode(',', $ids).") ORDER BY fa_id ASC ");
+		$sql = $db->query("SELECT * FROM $db_fileAPI WHERE $where fa_area = '{$param['area']}'  AND fa_cat = '{$param['cat']}'  AND fa_indf IN (".implode(',', $ids).") ORDER BY fa_id ASC ");
 
 		if ($sql->rowCount())
 		{
