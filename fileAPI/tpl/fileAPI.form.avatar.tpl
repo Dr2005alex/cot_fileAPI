@@ -34,6 +34,11 @@ $().ready(function () {
 		fapiGetFile(id, 'delete');
 	});
 	
+	$('body').on('click','.js-close',function () {
+		$.modal().close();
+		FileAPIobj.fileapi('clear');
+	});
+	
     FileAPIobj.fileapi({
 			url: fileAPI_preset.actionurl,
             multiple: fileAPI_preset.multiple,
@@ -197,7 +202,8 @@ $().ready(function () {
 <div id="popup" class="popup" style="display: none;">
 	<div class="popup__body"><div class="js-img"></div></div>
 	<div style="margin: 0 0 5px; text-align: center;">
-		<div class="js-upload btn btn_browse btn_browse_small">Upload</div>
+		<div class="js-upload fapi_btn">{PHP.L.fileAPI_upload_file}</div>
+		<div class="js-close fapi_btn fapi_btn-close">{PHP.L.Cancel}</div>
 	</div>
 </div>
 <!-- END: FORM -->
