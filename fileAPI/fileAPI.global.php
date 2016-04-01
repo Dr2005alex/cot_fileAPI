@@ -54,12 +54,3 @@ if (!function_exists('fileAPI_files'))
 		return get_fileAPI_files($param, $thumb_dir, false, $tpl);
 	}
 }
-
-function load_fileAPI_preset($name)
-{
-	if (!isset(cot::$cfg['fileAPI']['cat_preset']['preset_'.$name]))
-	{
-		throw new Exception('Error: Preset not found.');
-	}
-	return  json_decode(cot::$cfg['fileAPI']['cat_preset']['preset_'.$name], true);
-}

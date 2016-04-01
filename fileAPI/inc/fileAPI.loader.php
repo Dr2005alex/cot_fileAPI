@@ -139,21 +139,25 @@ function fileAPI_create_file($files, $param, $name, $mime = 'mime')
 		(!empty($param['user_folder']) ? $param['user_folder'].'/' : '').
 		(!empty($param['thumb_fld']) ? $param['thumb_fld'].'/' : '');
 
-	$files['name'] = trim(mb_strtolower($files['name']));
+	$files['name'] = mb_strtolower($files['name']);
+	$files['name'] = trim(str_replace(array("\'", "\""), '', $files['name']));
+	$files['name'] = str_replace("php", 'p_h_p', $files['name']);
+
+	if ($mime == 'image')
+	{
+		// правка для превью
+		$log_name = $files['name'] = preg_replace("/(.gif.png)$/", ".png", $files['name']);
+	}
 
 	// расширение
-	$ext = mb_substr($files['name'], mb_strrpos($files['name'], '.') + 1);
+	$ext = substr(strrchr($files['name'], '.'), 1);
 
-	// имя
-	$file_name = mb_substr($files['name'], 0, mb_strrpos($files['name'], '.'));
-	$file_name = str_replace(array('php','—','.jpg','.jpeg','.png','.gif','.'), array('p_h_p','-','','','','','_'), $file_name);
-	$files['name'] = $file_name.'.'.$ext;
 
 	// безопасное имя
 	$pefix_name = ($param['cat'] == 'fileapi_prepare') ? '' : (!empty($param['indf']) ? '_'.$param['indf']
 				: '').'_'.$usr['id'];
 
-	if($param['mode'] == 'avatar' || $param['mode'] == 'page_avatar' || $param['mode'] == 'photo'){
+	if($param['mode'] == 'avatar'){
 		$pefix_name = cot_unique(4).$pefix_name;// решает проблему отображения закешированных браузером нарезанных изображений
 	}
 

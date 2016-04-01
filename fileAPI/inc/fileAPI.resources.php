@@ -6,5 +6,3 @@ $R['fapi_userimg_photo'] = '<img src="{$src}" alt="{$alt}" class="photo" />';
 
 $R['fapi_userimg_default_avatar'] = '<img src="datas/defaultav/blank.png" alt="'.$L['Avatar'].'" class="avatar" />';
 $R['fapi_userimg_default_photo'] = '<img src="datas/defaultav/blank.png" alt="'.$L['Avatar'].'" class="photo" />';
-
-$R['fapi_page_avatar'] = '<img src="{$src}" alt="{$alt}" class="page_avatar" />';

@@ -15,8 +15,10 @@ defined('COT_CODE') or die('Wrong URL');
 
 if (is_array($user_data))
 {
-	global $R;
+	global $R, $fileAPI_preset;
 	require_once cot_incfile('fileAPI', 'module', 'resources');
+	require_once cot_incfile('fileAPI', 'module', 'preset');
+
 
 	$temp_array['FILEAPI_AVATAR_PATH'] = $cfg['fileAPI']['dir'].'user_image/avatar/';
 	$temp_array['FILEAPI_AVATAR_FILE'] = $user_data['user_fileAPI_avatar'];
@@ -27,19 +29,19 @@ if (is_array($user_data))
 			'src' => $temp_array['FILEAPI_AVATAR_SRC'],
 			'alt' => $user_data['user_name'])) : cot_rc("fapi_userimg_default_avatar");
 
-	$fapi_preset_avatar = load_fileAPI_preset('avatar');
 
-	if ($fapi_preset_avatar)
+	if ($fileAPI_preset['avatar'])
 	{
-		foreach ($fapi_preset_avatar['imagetransform'] as $fkey => $fval)
+		$fileAPI_preset['avatar'] = array_change_key_case($fileAPI_preset['avatar'], CASE_LOWER);
+
+		foreach ($fileAPI_preset['avatar']['imagetransform'] as $fkey => $fval)
 		{
-			if($fval['name'] != 'original'){
-			$temp_array['FILEAPI_AVATAR_'.strtoupper($fval['name'])] = !empty($temp_array['FILEAPI_AVATAR_SRC']) ? cot_rc("fapi_userimg_avatar", array(
-					'src' => $temp_array['FILEAPI_AVATAR_PATH'].$fval['name'].'/'.$temp_array['FILEAPI_AVATAR_FILE'],
+			if($fkey != 'original'){
+			$temp_array['FILEAPI_AVATAR_'.strtoupper($fkey)] = !empty($temp_array['FILEAPI_AVATAR_SRC']) ? cot_rc("fapi_userimg_avatar", array(
+					'src' => $temp_array['FILEAPI_AVATAR_PATH'].$fkey.'/'.$temp_array['FILEAPI_AVATAR_FILE'],
 					'alt' => $user_data['user_name'])) : cot_rc("fapi_userimg_default_avatar");
 			}
 		}
-		unset($fapi_preset_avatar);
 	}
 
 	$temp_array['FILEAPI_PHOTO_PATH'] = $cfg['fileAPI']['dir'].'user_image/photo/';
@@ -51,18 +53,19 @@ if (is_array($user_data))
 			'src' => $temp_array['FILEAPI_PHOTO_SRC'],
 			'alt' => $user_data['user_name'])) : cot_rc("fapi_userimg_default_photo");
 
-	$fapi_preset_photo = load_fileAPI_preset('photo');
-	if ($fapi_preset_photo)
+
+	if ($fileAPI_preset['photo'])
 	{
-		foreach ($fapi_preset_photo['imagetransform'] as $fkey => $fval)
+		$fileAPI_preset['photo'] = array_change_key_case($fileAPI_preset['photo'], CASE_LOWER);
+
+		foreach ($fileAPI_preset['photo']['imagetransform'] as $fkey => $fval)
 		{
-			if($fval['name'] != 'original'){
-			$temp_array['FILEAPI_PHOTO_'.strtoupper($fval['name'])] = !empty($temp_array['FILEAPI_PHOTO_SRC']) ? cot_rc("fapi_userimg_photo", array(
-					'src' => $temp_array['FILEAPI_PHOTO_PATH'].$fval['name'].'/'.$temp_array['FILEAPI_PHOTO_FILE'],
+			if($fkey != 'original'){
+			$temp_array['FILEAPI_PHOTO_'.strtoupper($fkey)] = !empty($temp_array['FILEAPI_PHOTO_SRC']) ? cot_rc("fapi_userimg_photo", array(
+					'src' => $temp_array['FILEAPI_PHOTO_PATH'].$fkey.'/'.$temp_array['FILEAPI_PHOTO_FILE'],
 					'alt' => $user_data['user_name'])) : cot_rc("fapi_userimg_default_photo");
 			}
 		}
-		unset($fapi_preset_photo);
 	}
 
 }
