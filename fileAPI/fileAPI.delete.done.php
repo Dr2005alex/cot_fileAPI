@@ -26,3 +26,10 @@ if ($param['mode'] == 'photo' && $param['cat'] == 'photo' && (int)$param['indf']
 	$db->update(cot::$db_x.'users',array('user_fileAPI_photo' => ''),'user_id = '.(int)$param['indf']);
 
 }
+
+if ($param['mode'] == 'page_avatar' && $param['cat'] != 'fileapi_prepare' && (int)$param['indf'] > 0)
+{
+
+	cot::$db->update(cot::$db_x.'pages',array('page_fileAPI_avatar' => ''),'page_id = '.(int)$param['indf']);
+
+}

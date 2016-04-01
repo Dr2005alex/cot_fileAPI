@@ -435,7 +435,7 @@
     clear: both;
 }
 
-
+.popup .fapi_btn,
 .fileAPI .fapi_btn{
 
     cursor: pointer;
@@ -457,6 +457,10 @@
     box-shadow: 0 1px 1px rgba(255,255,255,.5);
 }
 
+.fapi_btn.fapi_btn-close{
+	background:none;
+	border:none;
+}
 
 .fileAPI .fapi_btn[aria-disabled],
 .fileAPI .fapi_btn[disabled]{
