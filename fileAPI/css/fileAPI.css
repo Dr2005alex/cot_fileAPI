@@ -78,13 +78,18 @@ button.fapi-button,
 	vertical-align: middle;
 	border: 1px solid #ccc;
 
-	background-color: #f5f5f5;
-
+	background-color: #51ca4d;
+	color:#fff;
+	text-shadow: 1px 1px 0px #777;
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
 }
 
+.fapi-js-start.fapi-button{
+	background-color: #fcb142;
+	text-shadow: 1px 1px 0px #777;
+}
 
 .fapi-button-hover { 
 
@@ -94,7 +99,7 @@ button.fapi-button,
 
 
 	.fapi-buttont-text {
-		color: #333 ;
+		color: #fff ;
 		line-height: 1.2;
 			}	
 	.fapi-button-hover	.fapi-buttont-text{
@@ -174,9 +179,6 @@ button.fapi-button,
 .fapi-b-file-right {
 	position: relative;
 	float: left;
-
-/*	width: calc(100% - 55px);*/
-/*	margin-left: 5px;*/
 }
 
 .fapi-left-border {
@@ -289,9 +291,11 @@ button.fapi-button,
 	position: absolute;
 	bottom: 5px;
 }
+
 .fileapi_form_avatar .fapi-file-preview{
 	position: relative;
 	background: #f5f5f5;
+	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC');
 }			
 .fileapi_form_avatar .fapi-del,
 .fileapi_form_avatar .fapi-abort{
