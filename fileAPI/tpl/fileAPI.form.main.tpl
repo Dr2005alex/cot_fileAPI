@@ -1,289 +1,158 @@
 <!-- BEGIN: FORM --> 
-    <div id="FileAPImultiupload{PRESET_NAME}" class="fileAPI">
+<div id="FileAPImultiupload{PRESET_NAME}_{INDF}" class="fileapi_form">
+	<div  class="fileapi_body">			
+		<div  class="fapi-js-dropzone" style="display: none">
+			<div class="fapi-dropzone-bg"></div>
+			<div class="fapi-dropzone-txt">{PHP.L.fileAPI_drop_file_here}</div>
+		</div>
+		<div class="fapi-oooops">	
+			{PHP.L.fileAPI_not_support}
+			<div>{PHP.L.fileAPI_downloading_file_is_not_posible}</div>
+		</div>
+		<div class="fapi-buttons-panel">
+			<div class="fapi-js-select fapi-button btn btn-success btn-sm">
+				<div class=" fapi-buttont-text">{PHP.L.fileAPI_select_file}</div>
+				<input name="files" class="fipi-button-input" type="file"  />
+			</div>
+			<button class="fapi-js-start fapi-button">{PHP.L.fileAPI_download_file}</button>
+			<div class="fapi-drag-n-drop">
+				{PHP.L.fileAPI_drag_file_here}
+			</div>
+		</div>
+		<div class="fapi-main-info"></div>
+		<script class="fapi-file-tmpl" type="text/ejs">
+			<div id="file-<%=FileAPI.uid(file)%>" class="fapi-js-file fapi-b-file fapi-b-file_<%=file.type.split('/')[0]%>">
+				<div class="fapi-js-left fapi-b-file-left">
+					<span class="fapi-icon-file fapi-icon-type-<%=file.type.split('/')[0]%> fapi-icon-ext-<%=file.name.split(".").pop()%>"></span>
+				</div>
+				<div class="fapi-b-file-right">
+					<div class="fapi-overflow"><a class="fapi-file-name"><%=file.name%></a></div>
+					<div class="fapi-js-info fapi-b-file__info">size: <%=(file.size/FileAPI.KB).toFixed(2)%> KB <span class="fapi-process"></span></div>
+					<div class="fapi-js-progress fapi-b-file-bar" style="display: none">
+						<div class="fapi-b-progress"><div class="fapi-js-bar fapi-b-progress-bar"></div></div>
+					</div>
+				</div>
+				<b class="fapi-js-reset fapi-del">&times;</b>
+				<b class="fapi-js-abort fapi-b-file-abort" title="abort">&times;</b>
+				<div class="fapiclear"></div>
+			</div>
+		</script>
+		<script class="fapi-file-tmpl-editor" type="text/ejs">
+			<%if( data.file){%>
+				<a href="<%=data.orig_url%>" title="<%=data.alt%>"><%=data.alt%></a>
+			<%}else{ %>	
+				<% if( link){%>
+					<a href="<%=data.orig_url%>" ><img src="<%=data.url%>" alt="<%=data.alt%>"  /></a>
+				<%}else{%>	
+					<img src="<%=data.url%>" alt="<%=data.alt%>"/>
+				<%} %>	
+			<% } %>	
+		</script>
+		<div class="fapi-file-preview" style="margin-top: 10px">
+			{DISPLAY}
+		</div>
+	</div>
+</div>	
 
-                <div class="fapi_wrapper">
-                    <div class="fapi_display">
-
-                            {DISPLAY}
-                            <div class="fapi_upload_files">
-
-                                    <div class="fapi_tpl fapi_images_preview "  data-id="<%=uid%>" title="<%-name%>, <%-sizeText%>">
-                                        <div class="fapi_ok">&nbsp;</div>
-
-                                            <div data-fileapi="file.remove" class="fapi_del">✖</div>
-                                            <div class="fapi_preview ">
-                                                    <div class="fapi_preview_pic"></div>
-                                            </div>
-											<div class="fapi_preview_progress"><div class="fapi_bar"></div></div>
-                                            <% if( /^image/.test(type) ){ %>
-                                                    <div data-fileapi="file.rotate.cw" class="fapi_preview_rotate"></div>
-                                            <% } %>
-											
-											<div class="sub_preview">
-												<div class="fapi_thumb_name"><%-name%></div>
-												<div class="fapi_file_size"><%-sizeText%></div>	
-											</div> 
-                                            <div class="fapi_error"></div>
-                                    </div>
-
-                            </div>
-							
-						<!-- IF {DND} -->	
-						<div class="fapi_add_preview_btn fapi_btn_upload_ctrl">
-								<span>{PHP.L.fileAPI_upload_file}</span>
-						</div>			
-						<div class="fapi_add_preview_btn fapi_btn_abort_ctrl">
-								<span>{PHP.L.fileAPI_upload_file_abort}</span>
-						</div>	
-                        
-                        <div class="fapi_dndbox fapi_dnd_add_btn">
-							<span>{PHP.L.fileAPI_upload_dnd_files_hint}</span>
-						</div>
-                        <!-- ENDIF -->
-                    </div>
-                    <div class="fapi_clear"></div>                  
-                </div>      
-                <div class="fapi_btn_box" <!-- IF {DND} -->style="display:none"<!-- ENDIF -->>        
-                    <div class="fapi_btn fapi_add_btn">
-                            <span>{PHP.L.fileAPI_add_files}</span>
-                            <input type="file" name="filedata" class="fapi_add_input" />
-                    </div>
-                    <div class="fapi_btn fapi_btn_upload fapi_btn_upload_ctrl">
-                            <span>{PHP.L.fileAPI_upload_file}</span>
-                    </div>
-                    <div class="fapi_btn fapi_btn_abort fapi_btn_abort_ctrl">
-                            <span>{PHP.L.fileAPI_upload_file_abort}</span>
-                    </div>   
-                </div>     
-       
-    </div>
-					
-<style>
-	.fileAPI .fapi_images_preview .fapi_error,
-	.fileAPI .fapi_images_preview {height: calc({PREVIEW_HEIGHT}px + 2.2em); width: {PREVIEW_WIDTH}px;}
-	.fileAPI i.fileAPIicon,
-	.fileAPI .fapi_images_preview .fapi_preview{height: {PREVIEW_HEIGHT}px; width: {PREVIEW_WIDTH}px;}
-	.fileAPI .fapi_dnd_add_btn,
-	.fileAPI .fapi_add_preview_btn{height: calc({PREVIEW_HEIGHT}px + 2.2em); width:{PREVIEW_WIDTH}px;}
-
-</style>				
-		
-<script>
-$().ready(function () {
-
-	var widget_id = 'FileAPImultiupload{PRESET_NAME}';
-	var FileAPIobj = $('#'+widget_id);
-	var fileAPI_preset = {PRESET};	
-
-	if(fileAPI_preset.currentfiles < 1){			
-		$('#'+widget_id + ' .fapi_add_btn').hide();
-	}
-	
-	$('body').on('click','#'+widget_id + ' .fapi_del',function () {
-		var id = $(this).attr('data-id');
-		fapiGetFile(id, 'delete');
-	});
-	
-	$('body').on('click','#'+widget_id + ' .fapi_dndbox', function () {
-
-		$('#'+widget_id + ' .fapi_add_input').trigger('click');
-
-	});
-	
-    FileAPIobj.fileapi({
-			url: fileAPI_preset.actionurl,
-            multiple: fileAPI_preset.multiple,
-            autoUpload: fileAPI_preset.autoupload,
-            accept: fileAPI_preset.accept,
-            data: fileAPI_preset.data ,
-            maxSize: fileAPI_preset.maxfilesize * FileAPI.MB,
-            maxFiles: fileAPI_preset.currentfiles,
-			imageOriginal:false,
-            elements: {
-                    ctrl: { upload: '.fapi_btn_upload_ctrl' , abort:'.fapi_btn_abort_ctrl'},
-                    empty: {  hide:'.fapi_btn_reset'},
-                    emptyQueue: { hide: '.fapi_btn_upload .fapi_add_preview_btn .fapi_btn_abort' , show: '.fapi_btn_reset'},
-                    active: { show:'.fapi_btn_abort', hide: '.fapi_btn_upload, .fapi_btn_upload.fapi_add_preview_btn'},
-                    list: '.fapi_upload_files',
-                    file: {
-                            tpl: '.fapi_tpl',
-                            preview: {
-                                    el: '.fapi_preview' ,
-                                    get: function($el, file){  
-                                        $el.append('<i class="fileAPIicon icon_'+file.name.split('.').pop()+'"></i>');
-                                    },
-                                    width: {PREVIEW_WIDTH},
-                                    height: {PREVIEW_HEIGHT}
-                            },
-                            upload: { show: '.fapi_preview_progress', hide: '.fapi_preview_rotate' },
-                            complete: { hide: '.fapi_preview_progress'},
-                            progress: '.fapi_preview_progress .fapi_bar'
-                    },
-                    dnd: {
-                       el: '.fapi_dndbox',
-                       hover: '.fapi_dndbox_hover',
-                       fallback: '.fapi_dndbox-not-supported'
-                    }
-            },        
-            imageTransform:  {IMAGE_TRANSFORM} ,
-			onSelect: function (evt, ui){
-	
-			},
-            onFilePrepare:function (evt, uiEvt){
-				uiEvt.options.data.uid = uiEvt.xhr.uid;  
-            },  
-            onFileComplete:function (evt, uiEvt){
-                
-                var error = uiEvt.error;
-                var myerror = uiEvt.result.error;
-                var widgetId = uiEvt.widget.__fileId;
-				
-                if(error){
-                    alert(error);
-                }
-				
-                if(myerror){
-					
-                    $('#'+widget_id + ' [data-id="'+widgetId+'"] div.fapi_error').html(myerror).fadeIn();
-                    $('#'+widget_id + ' [data-id="'+widgetId+'"]').delay(fileAPI_preset.timeviewerror).fadeOut('normal',function(){
-						
-						$('#'+widget_id + ' [data-id="'+widgetId+'"] .fapi_del').trigger('click');
-                        
-                    });
-                    
-                }else{
-
-                    var lastid = uiEvt.result.file_info.lastId;
-
-                    if(lastid > 0){
-                        fapiGetFile(lastid,'view',widgetId);   
-                    }
-                }
-            }     
-   
-    });
-
-	function fapiGetFile(id, action,widgetId) {
-
-		var data = fileAPI_preset.data;
-		data.id = id;
-		data.act = action;
-		$.ajax({
-			type: "POST",
-			url: fileAPI_preset.elementurl,
-			data: data,
-			success: function (msg) {
-
-				if (action === 'view') {
-
-					fapiCurrentCount(false);
-					fapiActionElement.view(msg,id,widgetId);
-
-				}
-
-				if (action === 'delete' && msg === 'delete') {
-
-					fapiCurrentCount(true);
-					fapiActionElement.delete(id);
-
-					return true;
-				}
-
-			}
+<script type="text/javascript">
+		jQuery(function ($){
+			var widget_id = 'FileAPImultiupload{PRESET_NAME}_{INDF}';
+			var FileAPIobj = $('#'+widget_id);
+			FileAPIobj.cot_fileAPI({
+					preset:{PRESET}
+				});
+		}); 
+		$(document).on('ready ajaxSuccess',function(){
+				$('.fapi-dropdown > li a').click(function(evt){
+					evt.preventDefault();
+				});
+				$('.fapi-dropdown > li').unbind('hover');
+				$('.fapi-dropdown > li').hover(
+				function(){
+					$(this).find('ul').fadeIn('fast');
+				},
+				function(){
+				  $(this).find('ul').hide();
+				});	
 		});
-
-	}
-
-	function fapiCurrentCount(act) {
-
-		if(act){
-			fileAPI_preset.currentfiles++;
-			if (fileAPI_preset.currentfiles === 0){ fileAPI_preset.currentfiles++; }
-		}else{
-			fileAPI_preset.currentfiles--;
-			if (fileAPI_preset.currentfiles === 0){ fileAPI_preset.currentfiles--; }	
-		}
-		FileAPIobj.fileapi("maxFiles", fileAPI_preset.currentfiles);
-
-		if (fileAPI_preset.currentfiles < 1) {
-
-			$('#'+widget_id + ' .fapi_add_input, .fapi_dndbox').prop('disabled', true);
-			$('#'+widget_id + ' .fapi_btn_box, #'+widget_id +' .fapi_dnd_add_btn').addClass('fapi_opacity');
-
-		} else {
-
-			$('#'+widget_id+ ' .fapi_add_input, .fapi_dndbox').prop('disabled', false);
-			$('#'+widget_id + ' .fapi_btn_box, #'+widget_id +' .fapi_dnd_add_btn').removeClass('fapi_opacity');
-		}
-
-		if (fileAPI_preset.currentfiles == 1 && fileAPI_preset.multiple) {
-
-			FileAPIobj.fileapi("multiple", false);
-
-		} else {
-
-			FileAPIobj.fileapi("multiple", fileAPI_preset.multiple);
-
-		}
-
-	}
-
-	// действия над элементом для данного шаблона	
-	var fapiActionElement = function(){
-	  return{
-		view:function(msg,id,widgetId){
-
-			$('#'+widget_id + ' [data-id="'+widgetId+'"]').replaceWith(msg);
-			FileAPIobj.fileapi('remove', widgetId);
-			$('#'+widget_id + ' #fapi_thumb_' + id + ' .fapi_ok').show().delay(2000).fadeOut();
-		},
-		delete:function(id){
-			$('#'+widget_id + ' #fapi_thumb_' + id).fadeOut('normal', function () {
-				this.remove();
-			});
-		}
-	  }
-	}();			
-										
-});					
 </script>
 <!-- END: FORM -->
 
 <!-- BEGIN: MAIN --> 
-<div class="fapi_display" id="fapi_display">
-	
+
 	<!-- BEGIN: ROW --> 
 
-		<!-- IF {TYPE} == 'IMG' -->
-			<div class="fapi_images_preview" id="fapi_thumb_{ID}" title="{TITLE}">
-				<div class="fapi_ok">&nbsp;</div>
-				<div class="fapi_edit_title jqmLink" data-id = "{ID}" data-url="{NAME_EDIT_URL}"></div>
-				<div class="fapi_del" data-id = "{ID}">✖</div>
-				<a href="{ORIG_URL}" data-lightbox = "roadtrip" data-rel="lightcase:myCollection" target="_blank" title="{TITLE}"><img src="{SRC}" alt="{TITLE}"/></a>
-				<div class="sub_preview">
-					<div class="fapi_thumb_name" id="fapi_file_name_{ID}">{TITLE}</div>
-					<div class="fapi_file_size">{SIZE}</div>
+		<div id="fapi_thumb_{ID}" class="fapi-b-file">
+			<!-- IF {TYPE} == 'IMG' -->
+			<div class="fapi-js-left fapi-b-file-left fapi-left-border">
+				<a href="{ORIG_URL}" data-lightbox = "roadtrip" data-rel="lightcase:FapiImages" target="_blank" title="{TITLE}">
+					<img src="{SRC}" alt="{TITLE}"/>
+				</a>
+			</div>	
+			<!-- ELSE -->
+			<div class="fapi-js-left fapi-b-file-left">
+			
+				<a href="{ORIG_URL}" <!-- IF {MIME_TYPE} != 'application' -->data-lightbox = "roadtrip" data-rel="lightcase"<!-- ELSE -->target="_blank"<!-- ENDIF -->  title="{TITLE}">
+					<span class="fapi-icon-file fapi-icon-type-{MIME_TYPE} fapi-icon-ext-{EXT}"></span>
+				</a>
+			</div>		
+			<!-- ENDIF -->
+			
+			<div class="fapi-b-file-right">
+				<div class="fapi-overflow">
+					<span id="fapi_edit_name_{ID}" title="size: {SIZE}">
+						<a class="fapi-file-name fapi_ajax"  data-url="{NAME_EDIT_URL}" data-ajaxblock="fapi_edit_name_{ID}" >{TITLE}</a>
+					</span>
 				</div>
-			</div>   
-		<!-- ELSE -->
-			<div class="fapi_images_preview" id="fapi_thumb_{ID}" title="{TITLE}">
-				<div class="fapi_ok">&nbsp;</div>
-				<div class="fapi_edit_title jqmLink" data-id = "{ID}" data-url="{NAME_EDIT_URL}"></div>
-				<div class="fapi_del" data-id = "{ID}">✖</div>
-				<a href="{ORIG_URL}"  target="_blank">
-					<div class="fapi_preview ">
-						<div class="fapi_preview_pic"></div>
-						<i class="fileAPIicon icon_{EXT}"></i>
+				<!-- IF !{LINKS_EDITOR_LINK} -->	
+				<div class="fapi-js-info fapi-b-file__info">size: {SIZE} <span class="fapi_ok">&check;ok</span></div>
+				<!-- ENDIF -->
+		
+				<!-- IF {TYPE} == 'IMG' -->
+				
+					<!-- IF {LINKS_EDITOR_LINK} -->
+					<div class="fapi-b-file__info">
+						<ul class="fapi-dropdown">
+							<li>
+								<a href="#"><i class="fapi-icon-insert-img"></i></a>
+								<ul>
+									<li class="head">{PHP.L.fileAPI_insert_img}</li>
+									{LINKS_EDITOR_IMG}
+								</ul>
+							</li>
+							<li>
+								<a href="#"><i class="fapi-icon-insert-img link-img"></i></a>
+								<ul>
+									<li class="head">{PHP.L.fileAPI_insert_link_img}</li>
+									{LINKS_EDITOR_LINK}
+								</ul>
+							</li>
+						</ul>
 					</div>
-				</a>	
-				<div class="sub_preview">
-					<div class="fapi_thumb_name"  id="fapi_file_name_{ID}">{TITLE}</div>
-					<div class="fapi_file_size">{SIZE}</div> 
-				</div>
-			</div> 
-		<!-- ENDIF -->
+					<!-- ENDIF -->
+					
+				<!-- ELSE -->
+				
+					<!-- IF {LINKS_EDITOR_LINK} -->	
+					<div class="fapi-b-file__info">
+						<ul class="fapi-dropdown">
+							<li>
+								<a href="#"><i class="fapi-icon-insert-img link-img"></i></a>
+								<ul>
+									<li class="head">{PHP.L.fileAPI_insert_link}</li>
+									{LINKS_EDITOR_LINK}
+								</ul>
+							</li>
+						</ul>
+					</div>
+					<!-- ENDIF -->
+					
+				<!-- ENDIF -->
+			</div>
+			<span class="fapi-js-del fapi-del" data-id = "{ID}" title="{PHP.L.Delete}">&times;</span>
+			<div class="fapiclear"></div>
+		</div>
 
 	<!-- END: ROW -->
-
-</div>
+	
 <!-- END: MAIN -->

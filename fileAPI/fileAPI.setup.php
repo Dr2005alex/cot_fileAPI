@@ -22,6 +22,7 @@ watermark_src=03:string::modules/fileAPI/img/watermark.png:
 filecheck=04:radio::1:
 nomimepass=05:radio::1:
 lightcase=06:radio::1:
+chunk_size=07:string::2:The size of the chunk in mb
 [END_COT_EXT_CONFIG]
 
 ==================== */

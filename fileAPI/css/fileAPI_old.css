@@ -1,0 +1,674 @@
+.fileAPI{
+	font-size: 13px;
+	line-height: 1em;
+	color: #667e72;
+}
+.fileAPI * {
+     -webkit-box-sizing: content-box!important;
+    -moz-box-sizing: content-box!important;
+     box-sizing: content-box!important;
+}
+
+/* icon */
+
+.fileAPI i.fileAPIicon{
+    position: absolute;
+    top:0;
+    left:0;
+    display: block;
+    width: 100%;
+    height: 100%;
+}
+
+.fileAPI_attach_box i.fileAPIicon{
+    position: relative;
+    top:0;
+    left:0;
+    display: block;
+    width: 43px;
+    height: 43px;
+	float:left;
+	margin-right: 1em;
+}
+
+.fileAPI_attach_box i.fileAPIicon {
+    background: url('uploader/file-icon.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_zip,
+.fileAPI i.fileAPIicon.icon_zip{
+    background: url('../../../images/filetypes/default/zip.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_wav,
+.fileAPI i.fileAPIicon.icon_wav{
+    background: url('../../../images/filetypes/default/wav.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_docx,
+.fileAPI i.fileAPIicon.icon_docx,
+.fileAPI_attach_box i.fileAPIicon.icon_doc,
+.fileAPI i.fileAPIicon.icon_doc,
+.fileAPI_attach_box i.fileAPIicon.icon_txt,
+.fileAPI i.fileAPIicon.icon_txt{
+    background: url('../../../images/filetypes/default/txt.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_rar,
+.fileAPI i.fileAPIicon.icon_rar{
+    background: url('../../../images/filetypes/default/rar.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_qt,
+.fileAPI i.fileAPIicon.icon_qt{
+    background: url('../../../images/filetypes/default/qt.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_pdf,
+.fileAPI i.fileAPIicon.icon_pdf{
+    background: url('../../../images/filetypes/default/pdf.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_ogg,
+.fileAPI i.fileAPIicon.icon_ogg{
+    background: url('../../../images/filetypes/default/ogg.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_mpg,
+.fileAPI i.fileAPIicon.icon_mpg{
+    background: url('../../../images/filetypes/default/mpg.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_mpeg,
+.fileAPI i.fileAPIicon.icon_mpeg{
+    background: url('../../../images/filetypes/default/mpeg.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_mp3,
+.fileAPI i.fileAPIicon.icon_mp3{
+    background: url('../../../images/filetypes/default/mp3.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_mov,
+.fileAPI i.fileAPIicon.icon_mov{
+    background: url('../../../images/filetypes/default/mov.png') 50% 50% no-repeat;
+}
+
+.fileAPI_attach_box i.fileAPIicon.icon_avi,
+.fileAPI i.fileAPIicon.icon_avi{
+    background: url('../../../images/filetypes/default/avi.png') 50% 50% no-repeat;
+}
+
+/* fapi */
+.fileAPI .fapi_display{
+    position: relative; 
+    
+}
+
+
+.fileAPI .fapi_wrapper{
+    position: relative; 
+    width: 100%;
+}
+
+.fileAPI .fapi_images_preview{
+    display: block;
+    float: left;
+    width: 80px;
+    margin: 3px;
+    padding: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 2px rgba(0,0,0,.4);
+    background-color: #fff;
+    white-space: nowrap;
+    text-align: center;
+    cursor:pointer;
+	
+     -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+     box-sizing: content-box;
+}
+
+.fileAPI .sub_preview{
+	height: 2.2em;
+}
+.fileAPI .fapi_thumb_name{
+    font-size: 0.9em;
+    line-height: 1.7em;
+    text-align: left;
+    overflow: hidden;
+}
+.fileAPI .fapi_file_size{
+    color:#999;
+    font-size: 0.8em;
+    line-height: 0.8em;
+    padding:0px;
+    text-align: left;
+}
+.fileAPI .fapi_avatar .fapi_del,
+.fileAPI .fapi_images_preview .fapi_del {
+    top: 0px;
+    right: 0px;
+    color: #f00;
+    background: #fff;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 999;
+    position: absolute;
+    font-size: 16px;
+    padding:3px 3px;
+    border-radius: 3px;
+    -webkit-transition: opacity .1s ease-in;
+    -moz-transition: opacity .1s ease-in;
+    transition: opacity .1s ease-in;
+}
+.fileAPI .fapi_avatar:hover .fapi_del,
+.fileAPI .fapi_images_preview:hover .fapi_del {
+    opacity: 1;
+}
+
+.fileAPI .fapi_avatar .fapi_del:hover,
+.fileAPI .fapi_images_preview .fapi_del:hover {
+    color:#e00;
+}
+
+
+.fileAPI .fapi_images_preview .fapi_ok{
+    position: absolute;
+    top:3px;
+    left:3px;
+    height: 16px;
+    width: 24px;
+    display: none;
+    z-index: 1000;
+    background:#fff url('uploader/button_ok.png') 50% 50% no-repeat;
+}
+.fileAPI .fapi_images_preview .fapi_edit_title{
+
+    position: absolute;
+    top:0px;
+    left:3px;
+    z-index: 1000;
+    color: #f00;
+    background: #fff;
+    cursor: pointer;
+    opacity: 0;
+    z-index: 999;
+	width: 16px;
+	height: 16px;
+    padding:2px 5px;
+    border-radius: 3px;
+    -webkit-transition: opacity .1s ease-in;
+    -moz-transition: opacity .1s ease-in;
+    transition: opacity .1s ease-in;
+	background:#fff url('uploader/edit_title.png') 50% 50% no-repeat;
+}
+
+
+.fileAPI .fapi_images_preview .fapi_error{
+    padding: 10px 5px 5px 5px;
+    position: absolute;
+    top:0;
+    left:0;
+    display: none;
+    width: 80px;
+    height: 110px;
+    background: rgba(200,0,0,.8);
+    background:rgba(255,0,0,.8) url('../../../images/icons/default/error.png') 50% 2% no-repeat;
+    background: repeating-linear-gradient(
+        -45deg,
+        #990000,
+        #990000 10px,
+        #CC0000 10px,
+        #CC0000 20px
+
+        );
+    color:#fff;
+    line-height: 1.4em;
+    font-size: 0.9em;
+    white-space: normal;
+    text-align: center;
+}
+
+.fileAPI .fapi_images_preview .fapi_error .lblext{
+    padding:1px 5px;
+    background:#FF0000; 
+}
+
+.fileAPI .fapi_preview_progress {
+    top: calc(85% - 2.1em);
+    left: 10%;
+    right: 10%;
+    position: absolute;
+    height: 5px;
+    padding: 1px;
+    box-shadow: 0 0 1px 1px rgba(255, 255, 255, 0.3);
+    border-radius: 10px;
+    background-color: rgba(0,0,0,.5);
+}
+
+.fileAPI .fapi_preview_progress .fapi_bar{
+    width: 0;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    height: 100%;
+    position: static;
+    border-radius: 10px;
+    background-color: orange;
+}
+
+.fileAPI .fapi_preview_rotate {
+    top: 40%;
+    left: 50%;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    margin: -16px 0 0 -16px;
+    position: absolute;
+    background: url('uploader/rotate.png');
+	background-color: rgba(255,255,255,0.6);
+	border-radius: 50%;
+}
+
+.fileAPI .fapi_images_preview .fapi_preview {
+    position: relative;
+    width: 80px;
+    height: 80px;
+    -webkit-transition: -webkit-transform .2s ease-in;
+    -moz-transition: -moz-transform .2s ease-in;
+    transition: transform .2s ease-in;
+}
+
+.fileAPI .fapi_images_preview .fapi_preview .fapi_preview_pic {
+    width: 100%;
+    height: 100%;
+    background: url('uploader/file-icon.png') 50% 50% no-repeat;
+}
+
+.fileAPI .fapi_upload_files {
+    position: relative;
+}
+
+.fileAPI .fapi_dndbox{
+    display: block;
+    float: left;
+    width: 80px;
+    height: 110px;
+    border-radius: 0px;
+    margin: 3px;
+    padding: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 2px rgba(0,0,0,.4);
+    background-color: #CCFFCC;
+    white-space: normal;
+    text-align: center;
+    cursor:pointer;
+
+    background: repeating-linear-gradient(
+        -45deg,
+        #CCFFCC,
+        #CCFFCC 10px,
+        #EEFFEE 10px,
+        #EEFFEE 20px
+
+        );
+
+}
+.fileAPI .fapi_dndbox:hover{
+    background-color: #EEFFEE;
+    background: repeating-linear-gradient(
+        -45deg,
+        #DEFFDE,
+        #DEFFDE 10px,
+        #EEFFEE 10px,
+        #EEFFEE 20px
+
+        );
+}
+.fileAPI .fapi_dndbox span {
+    position: relative;
+    top:55%;
+    font-size: 0.9em;
+    line-height: 1.3em;
+	text-shadow: 0px 1px 0px #EEFFEE;
+}
+.fileAPI .fapi_dndbox:before{
+    position: absolute;
+    top:20%;
+    left:calc(50% - 20px);
+    content:'+';
+    font-size:60px;
+    font-weight: bold;
+    color:#66CC66;
+    text-shadow: 0px -1px 0px #006600, 0px 1px 0px #fff;
+}
+
+.fileAPI .fapi_add_preview_btn{
+    display: block;
+    float: left;
+    width: 80px;
+    height: 108px;
+    border-radius: 0px;
+    margin: 3px;
+
+    padding: 5px;
+    overflow: hidden;
+    position: relative;
+    box-shadow: 0 0 2px rgba(0,0,0,.4);
+    background-color: #CCFFCC;
+    white-space: normal;
+    text-align: center;
+    cursor:pointer;
+
+    background: repeating-linear-gradient(
+        -45deg,
+        #FFCC66,
+        #FFCC66 10px,
+        #FFE48F 10px,
+        #FFE48F 20px
+
+        );
+
+}
+.fileAPI .fapi_add_preview_btn:hover{
+    background-color: #EEFFEE;
+    background: repeating-linear-gradient(
+        -45deg,
+        #FFd270,
+        #FFd270 10px,
+        #FFE48F 10px,
+        #FFE48F 20px
+
+        );
+}
+.fileAPI .fapi_add_preview_btn span {
+
+    position: relative;
+	display: block;
+	width: 100%;
+    top:55%;
+	left:-10px;
+    font-size: 1em;
+    line-height: 1.3em;
+	background: #FFE48F;
+	padding:2px 10px;
+	color:#CC3300;
+	text-shadow: 0px 1px 0px #FFeebb;
+}
+.fileAPI .fapi_add_preview_btn:before{
+    position: absolute;
+	width: 48px;
+	height: 48px;
+	display: block;
+	content:'';
+    top:15%;
+    left:calc(50% - 24px);
+    text-shadow: 0px -1px 0px #006600, 0px 1px 0px #fff;
+	background: url('uploader/upload.png') 50% 50% no-repeat;
+
+}
+
+.fileAPI .fapi_add_preview_btn[aria-disabled],
+.fileAPI .fapi_add_preview_btn[disabled]{
+    display:none;
+}
+
+
+.fileAPI .fapi_dndbox_hover {
+    color: #fff;
+    background-color: orange;
+    background: repeating-linear-gradient(
+        -45deg,
+        #CC3300,
+        #CC3300 10px,
+        #FF6600 10px,
+        #FF6600 20px
+
+        );
+}
+.fileAPI .fapi_clear{
+    position: relative;
+    clear: both;
+}
+.fileAPI .fapi_btn_box{
+    position: relative;
+    margin-top: 1em;
+    clear: both;
+}
+
+.popup .fapi_btn,
+.fileAPI .fapi_btn{
+
+    cursor: pointer;
+    *zoom: 1;
+    *display: inline;
+    display: inline-block;
+    position: relative;
+    overflow: hidden;
+    font-size: 1em;
+    font-family: Arial;
+    border-radius: 4px;
+    vertical-align: middle;
+    
+    border: 1px solid rgba(0,0,0,.2);
+    padding: 7px 10px;
+
+background: #5de648; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzVkZTY0OCIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZjc5MTEiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #5de648 0%, #1f7911 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#5de648), color-stop(100%,#1f7911)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #5de648 0%,#1f7911 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #5de648 0%,#1f7911 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #5de648 0%,#1f7911 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #5de648 0%,#1f7911 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#5de648', endColorstr='#1f7911',GradientType=0 ); /* IE6-8 */
+
+	margin: 0;
+	font-size: 16px;
+	cursor: pointer;
+	color: #fff;
+	font-style: normal;
+	padding: 0 10px;
+	box-shadow: none;
+	width: auto;
+	height: auto;
+	border-width: 1px;
+	border-radius: 3px;
+	line-height: 33px;
+	border-top-color: #9df091;
+	border-left-color: #7eea6c;
+	border-right-color: #7eea6c;
+	border-bottom-color: #49e332;
+	box-shadow: 0px -1px 0px 0px #4be335,
+				-1px 0 0px 0px #36c11e,
+				1px 0 0px 0px #36c11e,
+				0 1px 0px 0px #1d7410,
+				0 4px 5px 0px rgba(0, 0, 0, 0.3);
+}
+
+.fileAPI .fapi_btn:hover{
+
+background: #94ee86; /* Old browsers */
+/* IE9 SVG, needs conditional override of 'filter' to 'none' */
+background: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiA/Pgo8c3ZnIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyIgd2lkdGg9IjEwMCUiIGhlaWdodD0iMTAwJSIgdmlld0JveD0iMCAwIDEgMSIgcHJlc2VydmVBc3BlY3RSYXRpbz0ibm9uZSI+CiAgPGxpbmVhckdyYWRpZW50IGlkPSJncmFkLXVjZ2ctZ2VuZXJhdGVkIiBncmFkaWVudFVuaXRzPSJ1c2VyU3BhY2VPblVzZSIgeDE9IjAlIiB5MT0iMCUiIHgyPSIwJSIgeTI9IjEwMCUiPgogICAgPHN0b3Agb2Zmc2V0PSIwJSIgc3RvcC1jb2xvcj0iIzk0ZWU4NiIgc3RvcC1vcGFjaXR5PSIxIi8+CiAgICA8c3RvcCBvZmZzZXQ9IjEwMCUiIHN0b3AtY29sb3I9IiMxZjdhMTIiIHN0b3Atb3BhY2l0eT0iMSIvPgogIDwvbGluZWFyR3JhZGllbnQ+CiAgPHJlY3QgeD0iMCIgeT0iMCIgd2lkdGg9IjEiIGhlaWdodD0iMSIgZmlsbD0idXJsKCNncmFkLXVjZ2ctZ2VuZXJhdGVkKSIgLz4KPC9zdmc+);
+background: -moz-linear-gradient(top,  #94ee86 0%, #1f7a12 100%); /* FF3.6+ */
+background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#94ee86), color-stop(100%,#1f7a12)); /* Chrome,Safari4+ */
+background: -webkit-linear-gradient(top,  #94ee86 0%,#1f7a12 100%); /* Chrome10+,Safari5.1+ */
+background: -o-linear-gradient(top,  #94ee86 0%,#1f7a12 100%); /* Opera 11.10+ */
+background: -ms-linear-gradient(top,  #94ee86 0%,#1f7a12 100%); /* IE10+ */
+background: linear-gradient(to bottom,  #94ee86 0%,#1f7a12 100%); /* W3C */
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#94ee86', endColorstr='#1f7a12',GradientType=0 ); /* IE6-8 */
+	border-top-color: #bff5b7;
+	border-left-color: #93ef85;
+	border-right-color: #93ef85;
+	border-bottom-color: #4be334;
+	box-shadow: 0px -1px 0px 0px #8aed7c,
+				-1px 0 0px 0px #58c148,
+				1px 0 0px 0px #58c148,
+				0 1px 0px 0px #207a12,
+				0 4px 5px 0px rgba(0, 0, 0, 0.3);
+}	
+
+.fapi_btn.fapi_btn-close{
+	background:none;
+	border:none;
+}
+
+.fileAPI .fapi_btn[aria-disabled],
+.fileAPI .fapi_btn[disabled]{
+    opacity: .7;
+}
+
+
+
+.fileAPI .fapi_add_btn input {
+    top: -10px;
+    right: -40px;
+    z-index: 2;
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    font-size: 50px;
+    cursor: pointer;
+}
+
+.fileAPI .fapi_opacity{
+    opacity: 0.5;
+    filter: alpha(opacity=50);
+}
+
+.fileAPI_attach_box{
+	margin-top: 1em;
+	clear: both;
+}
+.fileAPI_attach_box .fileAPI_thumb{
+	display: block;
+	float: left;
+	margin-right: 4px;
+	margin-bottom: 4px;
+}
+.fileAPI_attach_box .fileAPI_thumb img{
+	border:2px solid #fff;
+}
+.fileAPI_attach_box .fileAPI_thumb:hover img{
+	opacity: 0.9;
+}
+
+.fileAPI_attach_box .fileAPI_file_wrap{
+	margin-bottom: 2px;
+}
+.fileAPI_attach_box .fapi_file_link{
+	position: relative;
+	display: block;
+	top:3px;
+	font-size: 1em;
+	line-height: 1.5em;
+}
+
+.fileAPI_attach_box .fapi_file_size{
+	font-size: 0.9em;
+}
+
+.fileAPIclear{
+	position: relative;
+	clear: both;
+}
+
+/* popup */
+.themodal-overlay {
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	top: 0;
+	right: 0;
+	z-index: 100000;
+	overflow: auto;
+	background-color: rgba(0, 0, 0, 0.5);
+}
+
+.lock {
+	overflow: hidden;
+}
+
+.popup {
+	margin: 25px;
+	float: left;
+	display: inline-block;
+	box-shadow: 0 0 5px #000;
+	background-color: #fff;
+}
+	.popup__body {
+		margin: 10px 10px 5px;
+	}
+	
+	
+/* avatar*/
+.fileAPI.userpic{
+	width: 80px;
+	height: 80px;
+	display: inline-block;
+	position: relative;
+	box-shadow: 0 0 2px rgba(0,0,0,.4);
+	overflow:hidden; 
+    white-space: nowrap;
+    text-align: center;
+    cursor:pointer;
+     -webkit-box-sizing: content-box;
+    -moz-box-sizing: content-box;
+     box-sizing: content-box;
+
+}
+
+.fileAPI.userpic .userpic__preview.bgd{
+	width: 100%;
+	height: 100%;
+    background-color: orange;
+    background: repeating-linear-gradient(
+        -45deg,
+        transparent,
+        transparent 10px,
+        rgba(255,255,255,0.5) 10px,
+        rgba(255,255,255,0.5) 20px
+
+        );
+	
+} 
+
+.fileAPI.userpic_avatar .userpic__preview.bgd {
+	width: 100%;
+	height: 100%;
+	background:#fff url('uploader/userpic.gif') 50% 50% no-repeat;
+	background-size: cover;
+}
+
+.fileAPI .fapi_add_btn input {
+    top: -10px;
+    right: -40px;
+    z-index: 2;
+    position: absolute;
+    cursor: pointer;
+    opacity: 0;
+    filter: alpha(opacity=0);
+    font-size: 50px;
+    cursor: pointer;
+}
+
+	.userpic .fapi_add_btn {
+		position: absolute;
+		bottom: 0;
+		width: calc(100% - 10px);
+		padding:5px 5px;
+		background: rgba(255,255,255,0.6);
+	}
+	.userpic .fapi_add_btn:hover {
+		background: rgba(255,255,255,0.9);
+	}
+	
+	.fileAPI.userpic  .fapi_preview_progress{
+		top:30%;
+	}

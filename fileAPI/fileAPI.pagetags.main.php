@@ -42,6 +42,5 @@ if (is_array($page_data))
 		unset($fapi_preset_avatar);
 	}
 
-
 }
 

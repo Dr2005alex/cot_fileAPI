@@ -2,12 +2,9 @@
 defined('COT_CODE') or die('Wrong URL');
 
 require_once cot_langfile('fileAPI', 'module');
-cot::$cfg['def_width'] = 100;
-cot::$cfg['def_height'] = 100;
 
-cot::$cfg['fileAPI']['const_param'] = array('prepare', 'area', 'cat', 'indf', 'maxfiles', 'tpl', 'dnd',
-	'auto',
-	'accept', 'loop', 'preset', 'type','editor');
+cot::$cfg['fileAPI']['const_param'] = array('prepare','area', 'cat', 'indf', 'maxfiles', 'tpl', 'dnd', 'auto',
+	'accept', 'loop', 'preset', 'type');
 cot::$db->registerTable('fileAPI');
 
 $fileAPI_loop_ids = array();
@@ -17,13 +14,19 @@ function img_transform_fileAPI_preset_parse($param)
 {
 	global $cfg;
 
+	$out = '';
 	$form_thumb = array();
-	$out = array();
 
 	foreach ($param as $value)
 	{
 
+		if (!empty($out))
+		{
+			$out .=", ";
+		}
 		$value['quality'] = (float) $value['quality'] > 0 ? (float) $value['quality'] : 0.86;
+		//$value['width'] = (int) $value['width'] > 0 ? (int) $value['width'] : 80;
+		//$value['height'] = (int) $value['height'] > 0 ? (int) $value['height'] : 80;
 
 		if ((int) $value['form'])
 		{
@@ -31,13 +34,7 @@ function img_transform_fileAPI_preset_parse($param)
 			$form_thumb['width'] = $value['width'];
 			$form_thumb['height'] = $value['height'];
 		}
-
-
-
 		$res = " '{$value['name']}' : {quality: {$value['quality']}";
-
-		$out[$value['name']]['quality'] = $value['quality'];
-
 
 		if ((int) $value['width'] > 0 && (int) $value['height'] > 0)
 		{
@@ -46,49 +43,47 @@ function img_transform_fileAPI_preset_parse($param)
 			{
 				case 'crop':
 
-					$out[$value['name']]['width'] = $value['width'];
-					$out[$value['name']]['height'] = $value['height'];
-					$out[$value['name']]['preview'] = true;
+					$res .= ", width:{$value['width']}, height:{$value['height']}, preview: true";
 
 					break;
 				case 'side':
 
-					$out[$value['name']]['maxWidth'] = $value['width'];
-					$out[$value['name']]['maxHeight'] = $value['height'];
-					$out[$value['name']]['preview'] = false;
+					$res .= ", maxWidth:{$value['width']}, maxHeight:{$value['height']}, preview: false";
 
 					break;
 				case 'stretch':
 
-					$out[$value['name']]['width'] = $value['width'];
-					$out[$value['name']]['height'] = $value['height'];
-					$out[$value['name']]['preview'] = false;
+					$res .= ", width:{$value['width']}, height:{$value['height']}, preview: false";
 
 					break;
 				default:
 					break;
 			}
 		}
-
 		if (!empty($value['typeimage']))
 		{
-			$out[$value['name']]['type'] = $value['typeimage'];
+			$res .= ', type: "'.$value['typeimage'].'"';
 		}
 
-		if ($value['watermark_on'] && $cfg['fileAPI']['watermark'])
+		if (is_array($value['watermark_on']) && $cfg['fileAPI']['watermark'])
 		{
 			$value['src'] = empty($value['watermark']['src']) ? $cfg['fileAPI']['watermark_src'] : $value['src'];
 			$value['x'] = (int) $value['x'] ? (int) $value['x'] : 15;
 			$value['y'] = (int) $value['y'] ? (int) $value['y'] : 15;
 
-			$param = array('x' => $value['x'], 'y' => $value['y'], 'src' => $value['src'], 'rel' => $value['pos']);
-			$out[$value['name']]['overlay'] = $param;
+			if (!empty($res))
+			{
+				$res .=", ";
+			}
+			$res .= "overlay: [{ x: {$value['x']}, y: {$value['y']}, src: '{$value['src']}', rel: FileAPI.Image.{$value['pos']} }]";
 		}
+
+		$out .= $res."}";
 	}
-	return array($out, $form_thumb);
+	return array("{".$out."}", $form_thumb);
 }
 
-function get_fileAPI_form($param, $mytpl = false)
+function get_fileAPI_form($param,$mytpl = false)
 {
 	global $L, $cfg, $sys, $usr;
 
@@ -98,21 +93,19 @@ function get_fileAPI_form($param, $mytpl = false)
 		throw new Exception('Error: There are no parameters');
 	}
 
-	// флаг что прикрепление к несуществующему объекту (нужна модификация)
-	if (!empty($param['prepare']))
-	{
-
-		$param['indf'] = cot::$usr['id'].($param['indf'] ? '_'.$param['indf'] : '');
-		$param['cat'] = 'fileapi_prepare';
-	}
-
 	if (empty($param['indf']) || empty($param['area']))
 	{
 		throw new Exception('Warning: Missing required parameter (indf or  area)');
 	}
 
 
+	// флаг что прикрепление к несуществующему объекту (нужна модификация)
+	if (!empty($param['prepare'])){
 
+		$param['indf'] = cot::$usr['id'].($param['indf'] ? '_'.$param['indf']:'');
+		$param['cat'] = 'fileapi_prepare';
+
+	}
 
 
 	$preset_name = $param['preset'] ? $param['preset'] : 'main';
@@ -146,10 +139,7 @@ function get_fileAPI_form($param, $mytpl = false)
 	//accept
 	if (!empty($preset['accept']) && $preset['accept'] !== 'all')
 	{
-
-
 		$arraccept = explode(',', $preset['accept']);
-		$preset['accept_list'] = json_encode($arraccept);
 		if (count($arraccept) > 0)
 		{
 			array_walk($arraccept, function(&$item) {
@@ -157,7 +147,6 @@ function get_fileAPI_form($param, $mytpl = false)
 			});
 			$preset['accept'] = implode(',', $arraccept);
 		}
-
 	}
 
 	//template
@@ -187,10 +176,10 @@ function get_fileAPI_form($param, $mytpl = false)
 		$form_thumb['code'] = '';
 	}
 
-	$preset['data'] = array('editor' => $param['editor'], 'area' => $param['area'], 'cat' => $param['cat'], 'indf' => $param['indf'],
+	$preset['data'] = array('area' => $param['area'], 'cat' => $param['cat'], 'indf' => $param['indf'],
 		'x' => $sys['xk'], 'thumb_fld' => $form_thumb['code'], 'tpl' => $tpl, 'mode' => $preset['mode']);
 
-	$preset['chunksize'] = $cfg['fileAPI']['chunk_size'];
+
 	$preset['actionurl'] = cot_url('fileAPI', 'm=loader', '', true);
 	$preset['countloadedfiles'] = (int) $info_loaded['count_files'];
 	$preset['maxfiles'] = (int) $preset['maxfiles'] > 0 ? (int) $preset['maxfiles'] : 1000000000000;
@@ -200,21 +189,18 @@ function get_fileAPI_form($param, $mytpl = false)
 		$preset['currentfiles'] = -1;
 	}
 	$preset['elementurl'] = cot_url('fileAPI', 'm=element', '', true);
-	$preset['preview_width'] = $form_thumb['width'] ? $form_thumb['width'] : cot::$cfg['def_width'];
-	$preset['preview_height'] = $form_thumb['height'] ? $form_thumb['height'] : cot::$cfg['def_height'];
-	$preset['txt'] = $L['fileAPI_controller_txt'];
 
 	$t->assign(array(
-		"INDF" => $param['indf'],
+		"INDF"=> $param['indf'],
 		"PRESET_NAME" => $preset_name,
 		"PRESET" => json_encode($preset, JSON_FORCE_OBJECT),
 		"IMAGE_TRANSFORM" => $imageTransform,
 		"IMAGE_TRANSFORM_OBJ" => json_encode($imageTransform, JSON_FORCE_OBJECT),
 		"DND" => (bool) $preset['dnd'] ? true : false,
 		"DISPLAY" => get_fileAPI_files($param, $form_thumb['code'], false, $tpl),
-		"PREVIEW_HEIGHT" => $preset['preview_height'],
-		"PREVIEW_WIDTH" => $preset['preview_width'],
-		"COUNT" => $preset['countloadedfiles'],
+		"PREVIEW_HEIGHT" => $form_thumb['height'],
+		"PREVIEW_WIDTH" => $form_thumb['width'],
+		"COUNT" => $preset['countloadedfiles']
 	));
 
 	add_rc_fileAPI_files($preset);
@@ -227,22 +213,15 @@ function add_rc_fileAPI_files($preset)
 {
 	global $cfg;
 
-	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/FileAPI.controller.js');
-
-	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/FileAPI/FileAPI.min.js');
-
-	//Получение доп данных о mp3 файле
-	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/FileAPI/FileAPI.id3.js');
-
-	//Получение доп данных об изображении
-	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/FileAPI/FileAPI.exif.js');
+	//cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/fileAPI.js');
+	//cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/FileAPI/FileAPI.min.js');
+	//cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/jquery.fileapi.min.js');
 
 	if (in_array($preset['mode'], array('avatar', 'photo', 'page_avatar')))
 	{
-
-		cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/cropper/cropper.css');
-		cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/cropper/cropper.js');
-
+		cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/jcrop/jquery.Jcrop.min.js');
+		cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/modal/jquery.modal.js');
+		cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/jcrop/jquery.Jcrop.min.css');
 	}
 }
 
@@ -283,9 +262,7 @@ function get_fileAPI_files_loop_data($param, $ids, $where)
 
 function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fileAPI.display.view')
 {
-	global $cfg,$R, $usr, $db, $db_fileAPI, $fileAPI_loop_ids, $fileAPI_loop_data;
-
-
+	global $cfg, $usr, $db, $db_fileAPI, $fileAPI_loop_ids, $fileAPI_loop_data;
 
 	if (!is_array($param))
 	{
@@ -382,21 +359,18 @@ function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fi
 					: '');
 
 		$ext_thumb = $row['fa_extension'];
-		$thumb_dirs = array();
 		if (!empty($row['fa_prefix']) && !empty($thumb_dir))
 		{
 			$arr = unserialize($row['fa_prefix']);
 
 			if ($arr)
 			{
-
 				foreach ($arr as $value)
 				{
 					if ($value[0] == $thumb_dir && $value[1])
 					{
 						$ext_thumb = $value[1];
 					}
-					$thumb_dirs[$value[0]] = $value[1];
 				}
 			}
 		}
@@ -404,63 +378,6 @@ function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fi
 		$add_indf = ($row['fa_cat'] == 'fileapi_prepare' ) ? $row['fa_indf'].'/' : '';
 
 		$filetype = $row['fa_mime'] == 'image' ? 'IMG' : 'FILE';
-
-		if(!empty($param['editor'])){
-
-			require_once cot_incfile('fileAPI', 'module', 'resources');
-			$links_add_editor_img = '';
-			$links_add_editor_link = '';
-
-			if($filetype == 'IMG'){
-
-
-				$orig_url = $thumb_dirs_url = $file_path.$add_indf.$row['fa_file'].'.'.$row['fa_extension'];
-
-				$data_link = json_encode(array(
-					'alt' => $row['fa_desc'],
-					'editor' => $param['editor'],
-					'orig_url' => $orig_url,
-					'url' => $orig_url,
-				),JSON_FORCE_OBJECT);
-
-				$links_add_editor_img = cot_rc("fapi_page_editor_img", array('title' => 'Original','data' => $data_link));
-
-				if(is_array($thumb_dirs) && count($thumb_dirs) > 0 ){
-
-					foreach ($thumb_dirs as $key => $value)
-					{
-						$thumb_dirs_url = $file_path.$add_indf.$key.'/'.$row['fa_file'].'.'.$value;
-
-						$data_link = json_encode(array(
-							'alt' => $row['fa_desc'],
-							'editor' => $param['editor'],
-							'orig_url' => $orig_url,
-							'url' => $thumb_dirs_url
-						),JSON_FORCE_OBJECT);
-
-						$links_add_editor_img .= cot_rc("fapi_page_editor_img", array('title' => $key, 'data' => $data_link));
-
-						$links_add_editor_link .= cot_rc("fapi_page_editor_link_img", array('title' => $key, 'data' => $data_link));
-
-					}
-				}
-			}else{
-
-				$orig_url = $file_path.$add_indf.$row['fa_file'].'.'.$row['fa_extension'];
-
-				$data_link = json_encode(array(
-					'alt' => $row['fa_desc'],
-					'editor' => $param['editor'],
-					'orig_url' => $orig_url,
-					'file' => 1
-				),JSON_FORCE_OBJECT);
-
-
-				$links_add_editor_link = cot_rc("fapi_page_editor_link_file", array('title' => 'FILE', 'data' => $data_link));
-			}
-
-
-		}
 		$t->assign(array(
 			"TYPE" => $filetype,
 			"ID" => $row['fa_id'],
@@ -471,13 +388,8 @@ function get_fileAPI_files($param, $thumb_dir = '', $last_id = false, $tpl = 'fi
 			"TITLE" => !empty($row['fa_desc']) ? $row['fa_desc'] : $row['fa_file'].'.'.$row['fa_extension'],
 			"SIZE" => cot_build_filesize($row['fa_size'], 1),
 			"EXT" => $row['fa_extension'],
-			"MIME_TYPE" => $row['fa_mime'],
 			"NAME_EDIT_URL" => cot_url('fileAPI', 'm=editname&a=form&id='.$row['fa_id'], '', true),
-			"LINKS_EDITOR_IMG" => $param['editor'] ? $links_add_editor_img : '',
-			"LINKS_EDITOR_LINK" => $param['editor'] ? $links_add_editor_link : ''
 		));
-
-
 
 		if ($view_all)
 		{
@@ -705,9 +617,8 @@ function delete_fileAPI_file($id)
 
 		$db->delete($db_fileAPI, 'fa_id='.$id);
 
-		if ($file['fa_area'] == 'page_avatar' && (int) $file['fa_indf'] > 0)
-		{
-			$db->update(cot::$db_x.'pages', array('page_fileAPI_avatar' => ''), 'page_id = '.(int) $file['fa_indf']);
+		if($file['fa_area'] == 'page_avatar' && (int)$file['fa_indf'] > 0){
+			$db->update(cot::$db_x.'pages',array('page_fileAPI_avatar' => ''),'page_id = '.(int)$file['fa_indf']);
 		}
 
 		return true;
@@ -804,10 +715,11 @@ function modify_fileAPI_prepare($area, $indf, $cat, $pre_indf = false)
 					@unlink($file);
 				}
 
-				if ($area == 'page_avatar' && (int) $indf > 0)
+				if($area == 'page_avatar' && (int)$indf  > 0)
 				{
-					cot::$db->update(cot::$db_x.'pages', array('page_fileAPI_avatar' => $row['fa_file'].'_'.$indf.'_'.$row['fa_userid'].'.'.$row['fa_extension']), 'page_id = '.(int) $indf);
+					cot::$db->update(cot::$db_x.'pages',array('page_fileAPI_avatar' => $row['fa_file'].'_'.$indf.'_'.$row['fa_userid'].'.'.$row['fa_extension']),'page_id = '.(int)$indf);
 				}
+
 			}
 
 			if (!empty($row['fa_prefix']))
@@ -859,33 +771,4 @@ function modify_fileAPI_prepare($area, $indf, $cat, $pre_indf = false)
 
 		return false;
 	}
-}
-
-function parser_url_fileAPI_prepare($text,$indf, $newcat){
-
-	$marker = str_replace('/', '\/', cot::$cfg['fileAPI']['dir']);
-	return preg_replace_callback('`('.$marker.')([\w_.-]+)/(fileapi_prepare)/([\w_.-]+)/(([\w_.-]+)/)?([\w_.-]+)`is',
-	function ($m) use ($newcat,$indf) {
-
-		$res = '';
-		$res .= $m[1];
-		$res .= $m[2].'/';
-
-		if(!empty($newcat))
-		{
-			$res .= $newcat.'/';
-		}
-
-		if(!empty($m[6]))
-		{
-			$res .= $m[6].'/';
-		}
-
-		$ext = mb_substr($m[7], mb_strrpos($m[7], '.') + 1);
-		$file_name = mb_substr($m[7], 0, mb_strrpos($m[7], '.'));
-		$res .= $file_name.'_'.$indf.'_'.$m[4].'.'.$ext;
-		return $res;
-
-	}, $text);
-
 }

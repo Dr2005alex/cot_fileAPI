@@ -12,10 +12,11 @@
  */
 defined('COT_CODE') or die('Wrong URL');
 
+
 if (!function_exists('fileAPI_form'))
 {
 
-	function fileAPI_form($param)
+	function fileAPI_form($param,$mytpl = false)
 	{
 		global $L;
 		if (!function_exists('get_fileAPI_form'))
@@ -23,20 +24,20 @@ if (!function_exists('fileAPI_form'))
 			require_once cot_incfile('fileAPI', 'module');
 		}
 
-		return get_fileAPI_form($param);
+		return get_fileAPI_form($param, $mytpl);
 	}
 }
 
-if (!function_exists('fileAPI_prepare'))
-{
-
-	function fileAPI_prepare($area)
-	{
-
-		cot::$cfg['fileAPI']['prepare'][$area] = 'area: '.$area.', cat:fileapi_prepare, indf: '.cot::$usr['id'];
-		$_SESSION['fileAPI']['prepare'][$area] = cot::$usr['id'];
-	}
-}
+//if (!function_exists('fileAPI_prepare'))
+//{
+//
+//	function fileAPI_prepare($area, $add_indf = false)
+//	{
+//		$add = $add_indf ? '_'.$add_indf : '';
+//		cot::$cfg['fileAPI']['prepare'][$area] = 'area: '.$area.', cat:fileapi_prepare, indf: '.cot::$usr['id'].$add;
+//		$_SESSION['fileAPI']['prepare'][$area] = cot::$usr['id'].$add;
+//	}
+//}
 
 if (!function_exists('fileAPI_files'))
 {
@@ -61,5 +62,11 @@ function load_fileAPI_preset($name)
 	{
 		throw new Exception('Error: Preset not found.');
 	}
-	return  json_decode(cot::$cfg['fileAPI']['cat_preset']['preset_'.$name], true);
+	return json_decode(cot::$cfg['fileAPI']['cat_preset']['preset_'.$name], true);
+}
+
+function exist_fileAPI_file($path)
+{
+
+	return file_exists($path);
 }

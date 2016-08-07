@@ -1,34 +1,35 @@
 <!-- BEGIN: MAIN --> 
-<h2>{PHP.L.fileAPI_preset_title}</h2>
 
+<h2>{PHP.L.fileAPI_preset_title}</h2>
 <div class="block button-toolbar">
 	<!-- IF {PHP.a} == '' -->
-	<a href="{ADD_URL}" class="button special">{PHP.L.fileAPI_preset_add}</a>
+	<a href="{ADD_URL}" class="button special btn btn-default btn-sm">{PHP.L.fileAPI_preset_add}</a>
 	<!-- ELSE -->
-	<a href="{LIST_URL}" class="button">{PHP.L.fileAPI_preset_list}</a>
+	<a href="{LIST_URL}" class="button btn btn-default btn-sm">{PHP.L.fileAPI_preset_list}</a>
 	<!-- ENDIF -->
+	<a href="{CONVERT_URL}" class="button btn btn-default btn-sm">{PHP.L.fileAPI_user_avatar_convert}</a>
 </div>
 
 <!-- BEGIN: LIST -->
-<div class="block">
-	<table class="cells">
-	<tr>
-		<td class="coltop centerall width80">{PHP.L.fileAPI_preset}</td>
-		<td class="coltop centerall width20">{PHP.L.Action}</td>
-	</tr>
-	<!-- BEGIN: ROW --> 
-	<tr>
-		<td>{NAME}</td>
-		<td class="centerall">
-			<a href="{EDIT_URL}" class="button">{PHP.L.Edit}</a>
-			<!-- IF {DELETE} -->
-			<a href="{DELETE_URL}" class="button">{PHP.L.Delete}</a>
-			<!-- ENDIF -->
-		</td>
-	</tr>
-	<!-- END: ROW -->
-	</table>
-</div>		
+	<div class="block">
+		<table class="cells">
+		<tr>
+			<td class="coltop centerall width80">{PHP.L.fileAPI_preset}</td>
+			<td class="coltop centerall width20">{PHP.L.Action}</td>
+		</tr>
+		<!-- BEGIN: ROW --> 
+		<tr>
+			<td>{NAME}</td>
+			<td class="centerall">
+				<a href="{EDIT_URL}" class="button">{PHP.L.Edit}</a>
+				<!-- IF {DELETE} -->
+				<a href="{DELETE_URL}" class="button">{PHP.L.Delete}</a>
+				<!-- ENDIF -->
+			</td>
+		</tr>
+		<!-- END: ROW -->
+		</table>
+	</div>		
 <!-- END: LIST -->	
 
 <!-- BEGIN: FORM -->
@@ -99,9 +100,16 @@
 			<tr>
 				<td>{PHP.L.fileAPI_preset_tpl}:</td>
 				<td>
-					{P_TPL}
+					{P_TPL}{P_TPL_ADD}
+					<div class="adminconfigmore" >{PHP.L.File}: <span id="tpl_add_file"></span></div>
 				</td>
 			</tr>
+			<tr id="cropper_on_select">
+				<td>{PHP.L.fileAPI_preset_cropper}:</td>
+				<td>
+					{P_CROPPER}
+				</td>
+			</tr>			
 			<tr>
 				<td>{PHP.L.fileAPI_preset_mode}:</td>
 				<td>
@@ -178,21 +186,52 @@
 		<input type="submit" value="{PHP.L.Save}" class="confirm" />
 		<a href="#" id="addoption" class="button special">{PHP.L.fileAPI_preset_preview_add}</a>			
 	</div>
+	
 </form>		
 
 <script type="text/javascript">
-	$( document ).on( "click", ".deloption", function(e) {
-		e.preventDefault();
-		$(this).parents('.preset_preview_block').remove();
-	});
-	$( document ).on( "click", "#addoption", function(e) {
-		e.preventDefault();
-		var title = $('#prev_title').text();
-		var newOption = $('.preset_preview_block').last().clone().insertAfter($('.preset_preview_block').last()).show();
-		newOption.find('input[type="text"].prv_name').val('').prop('readonly', false);
-		newOption.find('.prev_title').text(title);
-		newOption.find('.deloption').show();
-		return false;
+	$().ready(function () {
+		
+		$( document ).on( "click", ".deloption", function(e) {
+
+				e.preventDefault();
+				$(this).parents('.preset_preview_block').remove();
+
+			})
+			.on( "keyup", "#tpl_add", function(e){
+
+				var main = 'fileAPI.form.';
+				$('#tpl_add_file').text(main + $('#select_tpl').val() + '.' + $(this).val() + '.tpl');
+
+			})
+			.on( "change", "#select_tpl", function(e){
+
+				$("#tpl_add").trigger('keyup');
+				if($(this).val() === 'main'){
+					$('#cropper_on_select').hide();
+					$('#select_crop_mode').prop('checked', false);
+				}
+				if($(this).val() === 'avatar'){
+					$('#cropper_on_select').show();
+				}
+
+			})
+			.on( "click", "#addoption", function(e) {
+
+				e.preventDefault();
+				var title = $('#prev_title').text();
+				console.log(title);
+				var newOption = $('.preset_preview_block').last().clone().insertAfter($('.preset_preview_block').last()).show();
+				newOption.find('input[type="text"][data-mark="prv_name"]').val('').prop('readonly', false);
+				newOption.find('.prev_title').text(title);
+				newOption.find('.deloption').show();
+				return false;
+
+			});
+
+		$("#select_tpl").trigger('change');
+		$("#tpl_add").trigger('keyup');
+	
 	});
 </script>	
 <!-- END: FORM -->

@@ -86,3 +86,4 @@ $L['cfg_lightcase'] = 'Использовать Lightcase для изображ�
 $L['cfg_lightcase_hint'] = '<a href="http://cornel.bopp-art.com/lightcase/#demo" target="_blank">Lightcase demo</a>';
 $L['cfg_watermark_src'] = 'Путь к изображению водяного знака';
 $L['cfg_watermark'] = 'Включить наложение водяного знака';
+$L['cfg_chunk_size'] = 'Сhunk size when downloading large files in MB';

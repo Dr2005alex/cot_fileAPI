@@ -10,6 +10,7 @@ cot_sendheaders();
 
 if ($a == 'form' && $id > 0 && COT_AJAX)
 {
+	require_once cot_incfile('forms');
 
 	$t = new XTemplate(cot_tplfile(array('fileAPI', 'edit', 'name')));
 
@@ -19,14 +20,17 @@ if ($a == 'form' && $id > 0 && COT_AJAX)
 	{
 		$name = (!empty($data['fa_desc'])) ? $data['fa_desc'] : $data['fa_file'];
 		$t->assign(array(
-			"INPUT_NAME" => cot_inputbox('text', 'api_name', $name, 'size = "60"'),
+			"ID" => $id,
+			"INPUT_NAME" => cot_inputbox('text', 'api_name', $name, ' id="api_name_'.$id.'"'),
 			"INPUT_ID" => cot_inputbox('hidden', 'api_id', $id),
-			"ACTION" => cot_url('fileAPI', 'm=editname&a=save&id='.$id, '', true),
+			"ACTION" => cot_url('fileAPI', 'm=editname&a=save&id='.$id.'&x='.$sys['xk'], '', true),
 		));
 
 		$t->parse('MAIN');
 		$t->out('MAIN');
+
 	}
+	exit;
 }
 
 if ($a == 'save' && $id > 0 && $api_id == $id && COT_AJAX)
@@ -44,9 +48,11 @@ if ($a == 'save' && $id > 0 && $api_id == $id && COT_AJAX)
 		$t = new XTemplate(cot_tplfile(array('fileAPI', 'edit', 'name')));
 		$t->assign(array(
 			"TITLE" => !empty($data['fa_desc']) ? $data['fa_desc'] : $data['fa_file'],
+			"NAME_EDIT_URL" => cot_url('fileAPI', 'm=editname&a=form&id='.$id, '', true),
 			"ID" => $id
 		));
 		$t->parse('MAIN.DONE');
 		$t->out('MAIN.DONE');
 	}
+	exit;
 }
