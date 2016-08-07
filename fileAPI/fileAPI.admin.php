@@ -63,7 +63,7 @@ if ($a == '')
 		{
 			$pname = substr($value['name'], 7);
 			$t->assign(array(
-				"DELETE" => !in_array($pname, array('main', 'avatar', 'photo', 'page_avatar')),
+				"DELETE" => !in_array($pname, array('main', 'avatar', 'photo', 'page_avatar', 'page_editor')),
 				"NAME" => $pname,
 				"EDIT_URL" => cot_url('admin', 'm=fileAPI&a=edit&name='.$value['name']),
 				"DELETE_URL" => cot_url('admin', 'm=fileAPI&a=delete&name='.$value['name']),

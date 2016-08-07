@@ -34,7 +34,7 @@
 					<div class="rside">
 						<div class="imgprev"></div>
 						<div class="btnpanel">
-							<button class="fapi-js-crop"><img src="{PHP.cfg.modules_dir}/fileAPI/icon/disk.png" /> {PHP.L.Download}</button>
+							<button class="fapi-js-crop"> {PHP.L.Download}</button>
 							<button class="w50" data-method="move" data-option="0" data-second-option="10" title="Move Down">
 								<img src="images/icons/default/arrow-down.png"/>
 							</button>
@@ -54,7 +54,7 @@
 								<img src="images/icons/default/arrow-jump.png" class="rotate-90"/>
 							</button>				
 							<button class="jqmClose">
-								<img src="images/icons/default/stop.png" /> {PHP.L.Cancel}
+								 {PHP.L.Cancel}
 							</button>						
 						</div>
 					</div>
@@ -62,7 +62,7 @@
 			</div>
 		</script>
 		<div class="fapi-file-preview" style="height: {PREVIEW_HEIGHT}px; width: {PREVIEW_WIDTH}px">
-			<div class="fapi-buttons-panel">
+			<div class="fapi-buttons-panel  align_center">
 				<div class="fapi-button btn btn-success btn-sm">
 					<div class="fapi-buttont-text">{PHP.L.fileAPI_download_file}</div>
 					<input name="files" class="fipi-button-input" type="file"  />
@@ -101,7 +101,7 @@
 	
 	<!-- BEGIN: ROW --> 
 
-		<div id="fapi_thumb_{ID}" class="fapi-b-file">
+		<div id="fapi_thumb_{ID}" class="fapi-b-file  align_center">
 			<!-- IF {TYPE} == 'IMG' -->
 			<div class="fapi-js-left">
 

@@ -201,7 +201,7 @@
 			.on( "keyup", "#tpl_add", function(e){
 
 				var main = 'fileAPI.form.';
-				$('#tpl_add_file').text(main + $('#select_tpl').val() + '.' + $(this).val() + '.tpl');
+				$('#tpl_add_file').text(main + $('#select_tpl').val() + ($(this).val() ? '.' + $(this).val():'') + '.tpl');
 
 			})
 			.on( "change", "#select_tpl", function(e){
