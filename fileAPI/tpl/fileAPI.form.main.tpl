@@ -53,7 +53,11 @@
 		</div>
 	</div>
 </div>	
-
+		<style>
+			.fapi-b-file-right{
+				width: calc(98% - 10px - {PREVIEW_WIDTH}px );
+			}
+		</style>
 <script type="text/javascript">
 		jQuery(function ($){
 			var widget_id = 'FileAPImultiupload{PRESET_NAME}_{INDF}';
