@@ -2,6 +2,8 @@
 defined('COT_CODE') or die('Wrong URL');
 
 require_once cot_langfile('fileAPI', 'module');
+require_once './datas/extensions.php';
+
 cot::$cfg['def_width'] = 100;
 cot::$cfg['def_height'] = 100;
 
@@ -12,6 +14,13 @@ cot::$db->registerTable('fileAPI');
 
 $fileAPI_loop_ids = array();
 $fileAPI_loop_data = array();
+$ext_array = array();
+
+foreach ($cot_extensions as $ke => $lineext)
+{
+	 $ext_array[] = mb_strtolower($lineext[0]);
+}
+
 
 function img_transform_fileAPI_preset_parse($param)
 {
@@ -90,7 +99,7 @@ function img_transform_fileAPI_preset_parse($param)
 
 function get_fileAPI_form($param, $mytpl = false)
 {
-	global $L, $cfg, $sys, $usr;
+	global $L, $cfg, $sys, $usr, $ext_array;
 
 	// parametr data
 	if (!parse_fileAPI_param($param))
@@ -203,7 +212,7 @@ function get_fileAPI_form($param, $mytpl = false)
 	$preset['preview_width'] = $form_thumb['width'] ? $form_thumb['width'] : cot::$cfg['def_width'];
 	$preset['preview_height'] = $form_thumb['height'] ? $form_thumb['height'] : cot::$cfg['def_height'];
 	$preset['txt'] = $L['fileAPI_controller_txt'];
-
+	$preset['extensions'] = json_encode($ext_array);
 	$t->assign(array(
 		"INDF" => $param['indf'],
 		"PRESET_NAME" => $preset_name,

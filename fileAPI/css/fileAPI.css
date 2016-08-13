@@ -154,7 +154,7 @@ button.fapi-button,
 	display: none;
 	color:#090;
 	position: relative;
-	z-index: 40000;
+	z-index: 1;
 }
 .fapi-main-info{
 	max-width: 600px;
@@ -508,6 +508,7 @@ ul.fapi-dropdown > li  > ul > li.head{
 /* popup */
 
 .fapi_popup_body {
+	z-index: 1;
 	position: relative;
 	background-color: #f5f5f5;
 	padding: 10px 10px ;
