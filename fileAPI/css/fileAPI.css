@@ -227,6 +227,14 @@ button.fapi-button,
 				font-size: 12px;
 				margin-top: 3px;
 			}
+.fileapi_form_avatar .fapi-b-file__info {
+				color: #666;
+				background: #eee;
+				font-size: 12px;
+				margin-top: 3px;
+				text-align: center;
+				padding:3px 5px;
+			}
 			.fapi-b-file__links{
 				
 				font-size: 12px;
@@ -272,7 +280,7 @@ button.fapi-button,
 				position: relative;
 		
 				width: 0;
-				height: 6px;
+				height: 10px;
 				border-radius: 2px;
 				background-color: #2D9DD7;
 				background: -webkit-linear-gradient(top, #2D9DD7 0%, #1C81C7 100%); /* FF3.6+ */
@@ -296,7 +304,8 @@ button.fapi-button,
 	position: relative;
 	background: #f5f5f5;
 	background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQAQMAAAAlPW0iAAAAA3NCSVQICAjb4U/gAAAABlBMVEXMzMz////TjRV2AAAACXBIWXMAAArrAAAK6wGCiw1aAAAAHHRFWHRTb2Z0d2FyZQBBZG9iZSBGaXJld29ya3MgQ1M26LyyjAAAABFJREFUCJlj+M/AgBVhF/0PAH6/D/HkDxOGAAAAAElFTkSuQmCC');
-}			
+}		
+
 .fileapi_form_avatar .fapi-del,
 .fileapi_form_avatar .fapi-abort{
 	z-index: 1;

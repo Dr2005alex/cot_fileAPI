@@ -55,6 +55,10 @@ function img_transform_fileAPI_preset_parse($param)
 			{
 				case 'crop':
 
+					if ((int) $value['form']){
+						$form_thumb['resize_type'] = 'preview';
+					}
+
 					$out[$value['name']]['width'] = $value['width'];
 					$out[$value['name']]['height'] = $value['height'];
 					$out[$value['name']]['preview'] = true;
@@ -62,12 +66,20 @@ function img_transform_fileAPI_preset_parse($param)
 					break;
 				case 'side':
 
+					if ((int) $value['form']){
+						$form_thumb['resize_type'] = 'max';
+					}
+
 					$out[$value['name']]['maxWidth'] = $value['width'];
 					$out[$value['name']]['maxHeight'] = $value['height'];
 					$out[$value['name']]['preview'] = false;
 
 					break;
 				case 'stretch':
+
+					if ((int) $value['form']){
+						$form_thumb['resize_type'] = '';
+					}
 
 					$out[$value['name']]['width'] = $value['width'];
 					$out[$value['name']]['height'] = $value['height'];
@@ -211,6 +223,7 @@ function get_fileAPI_form($param, $mytpl = false)
 	$preset['elementurl'] = cot_url('fileAPI', 'm=element', '', true);
 	$preset['preview_width'] = $form_thumb['width'] ? $form_thumb['width'] : cot::$cfg['def_width'];
 	$preset['preview_height'] = $form_thumb['height'] ? $form_thumb['height'] : cot::$cfg['def_height'];
+	$preset['preview_resize_type'] = $form_thumb['resize_type'] ? $form_thumb['resize_type'] : '';
 	$preset['txt'] = $L['fileAPI_controller_txt'];
 	$preset['extensions'] = json_encode($ext_array);
 	$t->assign(array(

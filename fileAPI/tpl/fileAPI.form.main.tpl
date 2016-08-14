@@ -54,7 +54,7 @@
 	</div>
 </div>	
 		<style>
-			.fapi-b-file-right{
+			#FileAPImultiupload{PRESET_NAME}_{INDF} .fapi-b-file-right{
 				width: calc(98% - 10px - {PREVIEW_WIDTH}px );
 			}
 		</style>

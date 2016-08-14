@@ -12,11 +12,13 @@
 		</div>
 		<script class="fapi-file-tmpl" type="text/ejs">
 			<div id="file-<%=FileAPI.uid(file)%>" class="fapi-js-file fapi-b-file fapi-b-file_<%=file.type.split('/')[0]%>">
-				<div class="fapi-js-left">
+				<div class="fapi-js-left align_center">
 					<span class="fapi-icon-file fapi-icon-type-<%=file.type.split('/')[0]%> fapi-icon-ext-<%=file.name.split(".").pop()%>"></span>
 				</div>
 				<div class="fapi-b-file-right">
-					<div class="fapi-js-info fapi-b-file__info">size: <%=(file.size/FileAPI.KB).toFixed(2)%> KB <span class="fapi-process"></span></div>
+				<div class="align_center">
+					<span class="fapi-js-info fapi-b-file__info">size: <%=(file.size/FileAPI.KB).toFixed(2)%> KB <span class="fapi-process"></span></span>
+				</div>	
 					<div class="fapi-js-progress fapi-b-file-bar" style="display: none">
 						<div class="fapi-b-progress"><div class="fapi-js-bar fapi-b-progress-bar"></div></div>
 					</div>
@@ -63,8 +65,8 @@
 		</script>
 		<div class="fapi-file-preview" style="height: {PREVIEW_HEIGHT}px; width: {PREVIEW_WIDTH}px">
 			<div class="fapi-buttons-panel  align_center">
-				<div class="fapi-button btn btn-success btn-sm">
-					<div class="fapi-buttont-text">{PHP.L.fileAPI_download_file}</div>
+				<div class="fapi-js-select fapi-button btn btn-success btn-sm">
+					<div class="fapi-buttont-text">{PHP.L.fileAPI_select}</div>
 					<input name="files" class="fipi-button-input" type="file"  />
 				</div>
 				<button class="fapi-js-start fapi-button ">{PHP.L.fileAPI_download_file}</button>
