@@ -227,7 +227,7 @@ button.fapi-button,
 				font-size: 12px;
 				margin-top: 3px;
 			}
-.fileapi_form_avatar .fapi-b-file__info {
+.fileapi_form_avatar .fapi-line.fapi-b-file__info {
 				color: #666;
 				background: #eee;
 				font-size: 12px;

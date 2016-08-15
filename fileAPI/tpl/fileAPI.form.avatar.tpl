@@ -17,7 +17,7 @@
 				</div>
 				<div class="fapi-b-file-right">
 				<div class="align_center">
-					<span class="fapi-js-info fapi-b-file__info">size: <%=(file.size/FileAPI.KB).toFixed(2)%> KB <span class="fapi-process"></span></span>
+					<span class="fapi-js-info fapi-line fapi-b-file__info">size: <%=(file.size/FileAPI.KB).toFixed(2)%> KB <span class="fapi-process"></span></span>
 				</div>	
 					<div class="fapi-js-progress fapi-b-file-bar" style="display: none">
 						<div class="fapi-b-progress"><div class="fapi-js-bar fapi-b-progress-bar"></div></div>

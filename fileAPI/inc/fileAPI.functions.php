@@ -251,7 +251,7 @@ function add_rc_fileAPI_files($preset)
 
 	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/FileAPI.controller.js');
 
-	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/FileAPI/FileAPI.min.js');
+	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/FileAPI/FileAPI.html5.min.js');
 
 	//Получение доп данных о mp3 файле
 	cot_rc_link_footer($cfg['modules_dir'].'/fileAPI/js/FileAPI/FileAPI.id3.js');
