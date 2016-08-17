@@ -239,7 +239,11 @@ function get_fileAPI_form($param, $mytpl = false)
 		"COUNT" => $preset['countloadedfiles'],
 	));
 
-	add_rc_fileAPI_files($preset);
+	if(!$cfg['jquery']){
+		$t->parse('FORM.NOJ');
+	}else{
+		add_rc_fileAPI_files($preset);
+	}
 
 	$t->parse('FORM');
 	return $t->text('FORM');

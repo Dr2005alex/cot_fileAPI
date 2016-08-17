@@ -85,7 +85,7 @@ $L['fileAPI_controller_txt'] = array(
 	);
 
 /*errors*/
-
+$L['fileAPI_not_jquery'] = 'jQuery не подключен! Загрузка файлов невозможна';
 $L['fileAPI_upload_file_error_ext'] = 'Файлы с расширением <span class="lblext">.%1$s</span> запрещены.';
 $L['fileAPI_filechecknomime'] = 'Внимание: не найден MIME-тип для файла %1$s. Параметры: %2$s';
 $L['fileAPI_filecheckfail'] = 'Внимание: ошибка расширения файла %1$s. Параметры: %2$s';

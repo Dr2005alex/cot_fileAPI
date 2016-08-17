@@ -1,4 +1,8 @@
-<!-- BEGIN: FORM --> 
+<!-- BEGIN: FORM -->
+
+<!-- BEGIN: NOJ --> 
+{PHP.L.fileAPI_not_jquery}
+<!-- END: NOJ --> 
 
 <div id="FileAPImultiupload{PRESET_NAME}_{INDF}" class="fileapi_form fileapi_form_avatar">
 	<div  class="fileapi_body">	

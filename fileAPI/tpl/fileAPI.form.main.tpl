@@ -1,4 +1,9 @@
 <!-- BEGIN: FORM --> 
+
+<!-- BEGIN: NOJ --> 
+{PHP.L.fileAPI_not_jquery}
+<!-- END: NOJ --> 
+
 <div id="FileAPImultiupload{PRESET_NAME}_{INDF}" class="fileapi_form">
 	<div  class="fileapi_body">			
 		<div  class="fapi-js-dropzone" style="display: none">
