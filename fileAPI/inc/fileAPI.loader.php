@@ -149,9 +149,12 @@ function fileAPI_fetch_files($files, &$file_info, $param, $name = 'file')
 
 	if (isset($files['tmp_name']))
 	{
+		if(empty($files['tmp_name'])){
+			$ferror_massage = 'max_upload_filesize error';
+			return;
+		}
+
 		$filename = $files['tmp_name'];
-
-
 		$finfo = finfo_open(FILEINFO_MIME_TYPE); // возвращает mime-тип
 		$mime = finfo_file($finfo, $filename);
 		finfo_close($finfo);
