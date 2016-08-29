@@ -25,6 +25,7 @@ $L['fileAPI_upload_delete_file_conf'] = 'Удалить файл';
 $L['fileAPI_preset'] = 'Пресет';
 $L['fileAPI_preset_title'] = 'Пресеты fileAPI';
 $L['fileAPI_preset_add'] = 'Создать новый пресет';
+$L['fileAPI_preset_save'] = 'Сохранить установки';
 $L['fileAPI_preset_list'] = 'Показать список пресетов';
 $L['fileAPI_preset_main_setup_form'] = 'Основные настройки формы';
 $L['fileAPI_preset_name'] = 'Имя пресета';

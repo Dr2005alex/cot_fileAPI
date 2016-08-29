@@ -183,7 +183,7 @@
 	
 	<!-- END: ELEMENT -->	
 	<div class="block">	
-		<input type="submit" value="{PHP.L.Save}" class="confirm" />
+		<input type="submit" value="{PHP.L.fileAPI_preset_save}" class="confirm" />
 		<a href="#" id="addoption" class="button special">{PHP.L.fileAPI_preset_preview_add}</a>			
 	</div>
 	
