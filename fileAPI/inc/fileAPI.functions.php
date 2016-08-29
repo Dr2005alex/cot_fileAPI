@@ -14,13 +14,13 @@ cot::$db->registerTable('fileAPI');
 
 $fileAPI_loop_ids = array();
 $fileAPI_loop_data = array();
-$ext_array = array();
-
+$tmp_cot_extensions = array();
 foreach ($cot_extensions as $ke => $lineext)
 {
-	 $ext_array[] = mb_strtolower($lineext[0]);
+	 $tmp_cot_extensions[] = mb_strtolower($lineext[0]);
 }
-
+cot::$cfg['cot_extensions_array'] = $tmp_cot_extensions;
+unset($tmp_cot_extensions);
 
 function img_transform_fileAPI_preset_parse($param)
 {
@@ -111,7 +111,7 @@ function img_transform_fileAPI_preset_parse($param)
 
 function get_fileAPI_form($param, $mytpl = false)
 {
-	global $L, $cfg, $sys, $usr, $ext_array;
+	global $L, $cfg, $sys, $usr;
 
 	// parametr data
 	if (!parse_fileAPI_param($param))
@@ -225,7 +225,7 @@ function get_fileAPI_form($param, $mytpl = false)
 	$preset['preview_height'] = $form_thumb['height'] ? $form_thumb['height'] : cot::$cfg['def_height'];
 	$preset['preview_resize_type'] = $form_thumb['resize_type'] ? $form_thumb['resize_type'] : '';
 	$preset['txt'] = $L['fileAPI_controller_txt'];
-	$preset['extensions'] = json_encode($ext_array);
+	$preset['extensions'] = json_encode($cfg['cot_extensions_array']);
 	$t->assign(array(
 		"INDF" => $param['indf'],
 		"PRESET_NAME" => $preset_name,

@@ -18,7 +18,7 @@ if (!function_exists('fileAPI_form'))
 
 	function fileAPI_form($param,$mytpl = false)
 	{
-		global $L, $ext_array;
+		global $L;
 		if (!function_exists('get_fileAPI_form'))
 		{
 			require_once cot_incfile('fileAPI', 'module');
